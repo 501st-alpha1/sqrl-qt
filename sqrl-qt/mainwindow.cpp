@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "identitygenerationwindow.cpp"
+#include "identitycreationwindowpage1.cpp"
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -12,6 +12,6 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_pushButton_clicked() {
-  IdentityGenerationWindow *identGen = new IdentityGenerationWindow;
-  identGen->show();
+  IdentityCreationWindowPage1 *identWiz = new IdentityCreationWindowPage1;
+  identWiz->show();
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>IdentityGenerationWindow</class>
- <widget class="QWidget" name="IdentityGenerationWindow">
+ <class>IdentityCreationWindowPage1</class>
+ <widget class="QWidget" name="IdentityCreationWindowPage1">
   <property name="geometry">
    <rect>
     <x>0</x>

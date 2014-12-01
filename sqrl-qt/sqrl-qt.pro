@@ -14,10 +14,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    identitygenerationwindow.cpp
+    identitycreationwindowpage1.cpp
 
 HEADERS  += mainwindow.h \
-    identitygenerationwindow.h
+    identitycreationwindowpage1.h
 
 FORMS    += mainwindow.ui \
-    identitygenerationwindow.ui
+    identitycreationwindowpage1.ui
