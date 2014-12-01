@@ -1,6 +1,7 @@
 #include "identitycreationwindowpage1.h"
 #include "ui_identitycreationwindowpage1.h"
-#include "identitycreationwindowpage2.h"
+//#include "identitycreationwindowpage2.h"
+#include "sqrlidentity.cpp"
 
 IdentityCreationWindowPage1::IdentityCreationWindowPage1(QWidget *parent) :
   QWidget(parent),
@@ -18,6 +19,9 @@ void IdentityCreationWindowPage1::on_pushButton_clicked() {
 
 void IdentityCreationWindowPage1::on_pushButton_2_clicked() {
   this->close();
+  SqrlIdentity* ident = new SqrlIdentity;
+  /*
   IdentityCreationWindowPage2 *page2 = new IdentityCreationWindowPage2();
   page2->show();
+  */
 }
