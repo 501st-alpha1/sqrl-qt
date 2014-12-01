@@ -1,4 +1,4 @@
-#include "SqrlIdentity.h"
+#include "sqrlidentity.h"
 #include <QDebug>
 
 SqrlIdentity::SqrlIdentity() {
