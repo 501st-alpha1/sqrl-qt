@@ -14,7 +14,12 @@ class IdentityCreationWindowPage1 : public QWidget {
   explicit IdentityCreationWindowPage1(QWidget *parent = 0);
   ~IdentityCreationWindowPage1();
 
- private:
+private slots:
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
+private:
     Ui::IdentityCreationWindowPage1 *ui;
 };
 
