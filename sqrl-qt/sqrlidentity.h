@@ -6,10 +6,11 @@ class SqrlIdentity {
   SqrlIdentity();
   bool createIdentity();
   bool loadIdentity();
-  QString getKey();
+  QByteArray getKey();
+  QString getHexKey();
 
  private:
-  QString key;
+  QByteArray key;
 };
 
 #endif

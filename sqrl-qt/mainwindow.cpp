@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
   SqrlIdentity* ident = new SqrlIdentity;
   if (ident->loadIdentity()) {
-    ui->label_2->setText(ident->getKey());
+    ui->label_2->setText(ident->getHexKey());
   }
   else {
     ui->label_2->setText("No key found, or key is invalid");

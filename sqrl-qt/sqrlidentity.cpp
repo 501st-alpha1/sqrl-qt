@@ -3,6 +3,7 @@
 #include <QString>
 #include <QFile>
 #include <QDir>
+#include <QByteArray>
 
 SqrlIdentity::SqrlIdentity() {
 }
@@ -14,13 +15,15 @@ bool SqrlIdentity::createIdentity() {
   qDebug() << "Security warning: don't use this key for anything but testing!";
 
   qDebug() << "Currently the key is HARD-CODED!! Very bad!!";
-  this->key = "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
+  const char* key = "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
+  QByteArray keyBytes = QByteArray::fromHex(key);
+  this->key = keyBytes;
+
   QString filename = QDir::homePath() + "/.sqrl/ident.txt";
   QFile file(filename);
 
   if (file.open(QIODevice::WriteOnly)) {
-    QTextStream stream(&file);
-    stream << this->key << endl;
+    file.write(this->key);
   }
 
   return true;
@@ -33,14 +36,13 @@ bool SqrlIdentity::createIdentity() {
 bool SqrlIdentity::loadIdentity() {
   QString filename = QDir::homePath() + "/.sqrl/ident.txt";
   QFile file(filename);
-  QString key;
+  QByteArray key;
 
   if (file.open(QIODevice::ReadOnly)) {
-      QTextStream stream(&file);
-      key = stream.readLine();
+    key = file.readLine();
   }
 
-  if (key.length() == 64) {
+  if (key.size() == 32) {
     this->key = key;
     return true;
   }
@@ -49,6 +51,10 @@ bool SqrlIdentity::loadIdentity() {
   }
 }
 
-QString SqrlIdentity::getKey() {
+QByteArray SqrlIdentity::getKey() {
   return this->key;
+}
+
+QString SqrlIdentity::getHexKey() {
+  return this->key.toHex();
 }
