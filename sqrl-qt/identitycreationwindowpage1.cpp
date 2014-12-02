@@ -1,7 +1,6 @@
 #include "identitycreationwindowpage1.h"
 #include "ui_identitycreationwindowpage1.h"
 //#include "identitycreationwindowpage2.h"
-#include "sqrlidentity.cpp"
 
 IdentityCreationWindowPage1::IdentityCreationWindowPage1(QWidget *parent) :
   QWidget(parent),

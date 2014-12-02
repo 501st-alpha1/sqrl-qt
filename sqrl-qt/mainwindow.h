@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "sqrlidentity.h"
 
 namespace Ui {
   class MainWindow;
@@ -16,9 +17,11 @@ class MainWindow : public QMainWindow {
 
   private slots:
     void on_pushButton_clicked();
+    void on_lineEdit_returnPressed();
 
  private:
     Ui::MainWindow *ui;
+    SqrlIdentity* ident;
 };
 
 #endif // MAINWINDOW_H

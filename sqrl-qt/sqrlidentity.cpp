@@ -60,3 +60,8 @@ QByteArray SqrlIdentity::getKey() {
 QString SqrlIdentity::getHexKey() {
   return this->key.toHex();
 }
+
+QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
+  qDebug() << "domain is " << domain;
+  return NULL;
+}

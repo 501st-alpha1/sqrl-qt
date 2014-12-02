@@ -4,12 +4,13 @@
 #include <QString>
 #include <QFile>
 #include <QDir>
+#include "sqrlidentity.cpp"
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
-  SqrlIdentity* ident = new SqrlIdentity;
+  ident = new SqrlIdentity;
   if (ident->loadIdentity()) {
     ui->label_2->setText(ident->getHexKey());
   }
@@ -25,4 +26,8 @@ MainWindow::~MainWindow() {
 void MainWindow::on_pushButton_clicked() {
   IdentityCreationWindowPage1 *identWiz = new IdentityCreationWindowPage1;
   identWiz->show();
+}
+
+void MainWindow::on_lineEdit_returnPressed() {
+  ident->makeDomainPrivateKey(ui->lineEdit->text());
 }
