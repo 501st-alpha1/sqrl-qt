@@ -8,9 +8,11 @@
 SqrlIdentity::SqrlIdentity() {
 }
 
+/*
+ * Generate a new SQRL identity.
+ * Need to add **LOTS** of entropy here.
+ */
 bool SqrlIdentity::createIdentity() {
-  // Creating a new SQRL identity.
-  // **LOTS** of entropy here.
   qDebug() << "LOTS of entropy goes here";
   qDebug() << "Security warning: don't use this key for anything but testing!";
 
