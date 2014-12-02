@@ -9,17 +9,9 @@ MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
-  QString filename = QDir::homePath() + "/.sqrl/ident.txt";
-  QFile file(filename);
-  QString key;
-
-  if (file.open(QIODevice::ReadOnly)) {
-      QTextStream stream(&file);
-      key = stream.readLine();
-  }
-
-  if (key.length() == 64) {
-    ui->label_2->setText(key);
+  SqrlIdentity* ident = new SqrlIdentity;
+  if (ident->loadIdentity()) {
+    ui->label_2->setText(ident->getKey());
   }
   else {
     ui->label_2->setText("No key found, or key is invalid");

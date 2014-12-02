@@ -20,6 +20,7 @@ void IdentityCreationWindowPage1::on_pushButton_clicked() {
 void IdentityCreationWindowPage1::on_pushButton_2_clicked() {
   this->close();
   SqrlIdentity* ident = new SqrlIdentity;
+  ident->createIdentity();
   /*
   IdentityCreationWindowPage2 *page2 = new IdentityCreationWindowPage2();
   page2->show();

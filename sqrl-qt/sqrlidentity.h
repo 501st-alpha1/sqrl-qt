@@ -4,6 +4,12 @@
 class SqrlIdentity {
  public:
   SqrlIdentity();
+  bool createIdentity();
+  bool loadIdentity();
+  QString getKey();
+
+ private:
+  QString key;
 };
 
 #endif
