@@ -21,7 +21,8 @@ void IdentityCreationWindowPage1::on_pushButton_2_clicked() {
   SqrlIdentity* ident = new SqrlIdentity;
   ident->createIdentity();
   /*
-  IdentityCreationWindowPage2 *page2 = new IdentityCreationWindowPage2();
-  page2->show();
-  */
+   * FIXME: implement the rest of the wizard
+   * IdentityCreationWindowPage2 *page2 = new IdentityCreationWindowPage2();
+   * page2->show();
+   */
 }
