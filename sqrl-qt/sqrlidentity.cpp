@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QDir>
 #include <QByteArray>
+#include <QtCrypto>
 
 SqrlIdentity::SqrlIdentity() {
 }
@@ -62,6 +63,7 @@ QString SqrlIdentity::getHexKey() {
 }
 
 QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
+  QCA::Initializer init;
   qDebug() << "domain is " << domain;
   return NULL;
 }
