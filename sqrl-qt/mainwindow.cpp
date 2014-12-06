@@ -29,5 +29,6 @@ void MainWindow::on_pushButton_clicked() {
 }
 
 void MainWindow::on_lineEdit_returnPressed() {
-  ident->makeDomainPrivateKey(ui->lineEdit->text());
+  QByteArray domainKey = ident->makeDomainPrivateKey(ui->lineEdit->text());
+  ui->label_5->setText(domainKey.toHex());
 }

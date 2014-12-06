@@ -64,6 +64,26 @@ QString SqrlIdentity::getHexKey() {
 
 QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
   QCA::Initializer init;
-  qDebug() << "domain is " << domain;
-  return NULL;
+
+  QByteArray arg = domain.toLocal8Bit();
+
+  if (!QCA::isSupported("hmac(sha1)")) {
+    qDebug() << "hmac(sha1)";
+    return NULL;
+  }
+  else {
+    QCA::MessageAuthenticationCode hmacObject("hmac(sha1)",QCA::SecureArray());
+
+    QCA::SymmetricKey keyObject(this->key);
+
+    hmacObject.setup(this->key);
+
+    QCA::SecureArray converter(arg);
+
+    hmacObject.update(converter);
+
+    QCA::SecureArray result = hmacObject.final();
+
+    return result.toByteArray();
+  }
 }
