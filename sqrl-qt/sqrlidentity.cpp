@@ -67,12 +67,12 @@ QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
 
   QByteArray arg = domain.toLocal8Bit();
 
-  if (!QCA::isSupported("hmac(sha1)")) {
-    qDebug() << "hmac(sha1)";
+  if (!QCA::isSupported("hmac(sha256)")) {
+    qDebug() << "hmac(sha256) is not supported!";
     return NULL;
   }
   else {
-    QCA::MessageAuthenticationCode hmacObject("hmac(sha1)",QCA::SecureArray());
+    QCA::MessageAuthenticationCode hmacObject("hmac(sha256)",QCA::SecureArray());
 
     QCA::SymmetricKey keyObject(this->key);
 
