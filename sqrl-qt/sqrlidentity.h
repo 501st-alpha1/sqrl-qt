@@ -9,6 +9,7 @@ class SqrlIdentity {
   QByteArray getKey();
   QString getHexKey();
   QByteArray makeDomainPrivateKey(QString domain);
+  QByteArray signMessage(QString message);
 
  private:
   QByteArray key;

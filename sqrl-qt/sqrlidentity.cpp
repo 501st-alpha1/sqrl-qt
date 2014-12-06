@@ -5,6 +5,8 @@
 #include <QDir>
 #include <QByteArray>
 #include <QtCrypto>
+#include <QStringList>
+#include <sodium.h>
 
 SqrlIdentity::SqrlIdentity() {
 }
@@ -86,4 +88,14 @@ QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
 
     return result.toByteArray();
   }
+}
+
+QByteArray SqrlIdentity::signMessage(QString message) {
+  if (sodium_init() == -1) {
+    qDebug() << "Error: sodium_init failed.";
+    return NULL;
+  }
+
+  qDebug() << message;
+  return NULL;
 }
