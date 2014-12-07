@@ -30,6 +30,9 @@ bool SqrlIdentity::createIdentity() {
   if (file.open(QIODevice::WriteOnly)) {
     file.write(this->key);
   }
+  else {
+    qDebug() << "Error: couldn't open file for writing.";
+  }
 
   return true;
 }
