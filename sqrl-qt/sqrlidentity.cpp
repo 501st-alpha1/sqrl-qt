@@ -119,3 +119,9 @@ QByteArray SqrlIdentity::signMessage(QString message) {
 
   return NULL;
 }
+
+bool SqrlIdentity::authenticate(QUrl url) {
+  QByteArray domainPrivateKey = this->makeDomainPrivateKey(url.toString());
+
+  return false;
+}

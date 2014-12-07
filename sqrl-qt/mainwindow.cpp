@@ -36,3 +36,7 @@ void MainWindow::on_lineEdit_returnPressed() {
 void MainWindow::on_lineEdit_2_returnPressed() {
   ident->signMessage(ui->lineEdit_2->text());
 }
+
+void MainWindow::on_pushButton_2_clicked() {
+  ident->authenticate(ui->lineEdit_3->text());
+}

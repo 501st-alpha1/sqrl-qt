@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow {
     void on_pushButton_clicked();
     void on_lineEdit_returnPressed();
     void on_lineEdit_2_returnPressed();
+    void on_pushButton_2_clicked();
 
  private:
     Ui::MainWindow *ui;
