@@ -93,16 +93,14 @@ QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
   }
 }
 
-QByteArray SqrlIdentity::signMessage(QString message) {
+QByteArray SqrlIdentity::signMessage(QString message, QByteArray privateKey) {
   if (sodium_init() == -1) {
     qDebug() << "Error: sodium_init failed.";
     return NULL;
   }
 
-  unsigned char pk[crypto_sign_PUBLICKEYBYTES];
-  unsigned char sk[crypto_sign_SECRETKEYBYTES];
-
-  crypto_sign_keypair(pk, sk);
+  //unsigned char pk[crypto_sign_PUBLICKEYBYTES];
+  unsigned char* sk = (unsigned char*) privateKey.toHex().constData();
 
   unsigned char sealedMessage[crypto_sign_BYTES + message.length()];
   unsigned long long sealedMessageLen;
@@ -114,17 +112,23 @@ QByteArray SqrlIdentity::signMessage(QString message) {
   unsigned char unsealedMessage[message.length()];
   unsigned long long unsealedMessageLen;
 
-  if (crypto_sign_open(unsealedMessage, &unsealedMessageLen, sealedMessage, sealedMessageLen, pk) != 0) {
-    qDebug() << "fail!";
-  }
-  else
-    qDebug() << "win";
+  /*
+    if (crypto_sign_open(unsealedMessage, &unsealedMessageLen, sealedMessage, sealedMessageLen, pk) != 0)
+      qDebug() << "fail!";
+    else
+      qDebug() << "win";
+  */
+
+  qDebug() << "success?";
 
   return NULL;
 }
 
 bool SqrlIdentity::authenticate(QUrl url) {
-  QByteArray domainPrivateKey = this->makeDomainPrivateKey(url.toString());
+  QByteArray domainPrivateKey = this->makeDomainPrivateKey(url.host());
+
+  QString message = url.host() + url.path() + "?nut=" + url.queryItemValue("nut");
+  QByteArray signature = this->signMessage(message, domainPrivateKey);
 
   return false;
 }

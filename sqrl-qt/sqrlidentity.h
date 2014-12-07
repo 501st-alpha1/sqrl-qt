@@ -11,7 +11,7 @@ class SqrlIdentity {
   QByteArray getKey();
   QString getHexKey();
   QByteArray makeDomainPrivateKey(QString domain);
-  QByteArray signMessage(QString message);
+  QByteArray signMessage(QString message, QByteArray privateKey);
   bool authenticate(QUrl url);
 
  private:

@@ -34,7 +34,7 @@ void MainWindow::on_lineEdit_returnPressed() {
 }
 
 void MainWindow::on_lineEdit_2_returnPressed() {
-  ident->signMessage(ui->lineEdit_2->text());
+  ident->signMessage(ui->lineEdit_2->text(),QByteArray::fromHex(ui->label_5->text().toAscii()));
 }
 
 void MainWindow::on_pushButton_2_clicked() {
