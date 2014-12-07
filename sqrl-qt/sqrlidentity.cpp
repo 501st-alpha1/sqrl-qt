@@ -99,8 +99,16 @@ QByteArray SqrlIdentity::signMessage(QString message, QByteArray privateKey) {
     return NULL;
   }
 
-  //unsigned char pk[crypto_sign_PUBLICKEYBYTES];
-  unsigned char* sk = (unsigned char*) privateKey.toHex().constData();
+  // Prepare the private key
+  unsigned char sk[crypto_sign_PUBLICKEYBYTES];
+  memcpy(sk, privateKey.data(), crypto_sign_PUBLICKEYBYTES);
+
+  // Now the public key
+  unsigned char pk[crypto_sign_PUBLICKEYBYTES];
+  crypto_sign_ed25519_sk_to_pk(pk, sk);
+
+  qDebug() << "pk " << pk;
+  qDebug() << "sk " << sk;
 
   unsigned char sealedMessage[crypto_sign_BYTES + message.length()];
   unsigned long long sealedMessageLen;
@@ -112,14 +120,10 @@ QByteArray SqrlIdentity::signMessage(QString message, QByteArray privateKey) {
   unsigned char unsealedMessage[message.length()];
   unsigned long long unsealedMessageLen;
 
-  /*
-    if (crypto_sign_open(unsealedMessage, &unsealedMessageLen, sealedMessage, sealedMessageLen, pk) != 0)
-      qDebug() << "fail!";
-    else
-      qDebug() << "win";
-  */
-
-  qDebug() << "success?";
+  if (crypto_sign_open(unsealedMessage, &unsealedMessageLen, sealedMessage, sealedMessageLen, pk) != 0)
+    qDebug() << "fail!";
+  else
+    qDebug() << "win";
 
   return NULL;
 }
