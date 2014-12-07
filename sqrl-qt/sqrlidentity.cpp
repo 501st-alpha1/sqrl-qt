@@ -96,6 +96,26 @@ QByteArray SqrlIdentity::signMessage(QString message) {
     return NULL;
   }
 
-  qDebug() << message;
+  unsigned char pk[crypto_sign_PUBLICKEYBYTES];
+  unsigned char sk[crypto_sign_SECRETKEYBYTES];
+
+  crypto_sign_keypair(pk, sk);
+
+  unsigned char sealedMessage[crypto_sign_BYTES + message.length()];
+  unsigned long long sealedMessageLen;
+
+  crypto_sign(sealedMessage, &sealedMessageLen,
+              (unsigned char*)message.toAscii().constData(), message.length(),
+              sk);
+
+  unsigned char unsealedMessage[message.length()];
+  unsigned long long unsealedMessageLen;
+
+  if (crypto_sign_open(unsealedMessage, &unsealedMessageLen, sealedMessage, sealedMessageLen, pk) != 0) {
+    qDebug() << "fail!";
+  }
+  else
+    qDebug() << "win";
+
   return NULL;
 }

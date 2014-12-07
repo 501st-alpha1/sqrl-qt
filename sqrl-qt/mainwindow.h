@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow {
   private slots:
     void on_pushButton_clicked();
     void on_lineEdit_returnPressed();
+    void on_lineEdit_2_returnPressed();
 
  private:
     Ui::MainWindow *ui;

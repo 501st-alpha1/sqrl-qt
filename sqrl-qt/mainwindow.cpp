@@ -32,3 +32,7 @@ void MainWindow::on_lineEdit_returnPressed() {
   QByteArray domainKey = ident->makeDomainPrivateKey(ui->lineEdit->text());
   ui->label_5->setText(domainKey.toHex());
 }
+
+void MainWindow::on_lineEdit_2_returnPressed() {
+  ident->signMessage(ui->lineEdit_2->text());
+}
