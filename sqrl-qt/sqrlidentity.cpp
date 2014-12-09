@@ -120,26 +120,22 @@ QByteArray SqrlIdentity::signMessage(QString message, QByteArray privateKey) {
     return NULL;
   }
 
-  // Prepare the private key
-  unsigned char sk[crypto_sign_SECRETKEYBYTES];
-  memcpy(sk, privateKey.data(), crypto_sign_SECRETKEYBYTES);
-
   // Now the public key
-  unsigned char pk[crypto_sign_PUBLICKEYBYTES];
-  crypto_sign_ed25519_sk_to_pk(pk, sk);
+  unsigned char publicKey[crypto_sign_PUBLICKEYBYTES];
+  crypto_sign_ed25519_sk_to_pk(publicKey, this->key);
 
   /*
    * Debugging
    */
-  printf("pk ");
+  printf("public key ");
   for (unsigned int i = 0; i < crypto_sign_PUBLICKEYBYTES; ++i) {
-    printf("%02x", (unsigned char)pk[i]);
+    printf("%02x", (unsigned char)publicKey[i]);
   }
   printf("\n");
 
-  printf("sk ");
+  printf("private key ");
   for (unsigned int i = 0; i < crypto_sign_SECRETKEYBYTES; ++i) {
-    printf("%02x", (unsigned char)sk[i]);
+    printf("%02x", (unsigned char)this->key[i]);
   }
   printf("\n");
   /*
@@ -149,10 +145,10 @@ QByteArray SqrlIdentity::signMessage(QString message, QByteArray privateKey) {
   unsigned char* actualMessage = (unsigned char*)message.toAscii().constData();
   unsigned char sig[crypto_sign_BYTES];
 
-  crypto_sign_detached(sig, NULL, actualMessage, message.length(), sk);
+  crypto_sign_detached(sig, NULL, actualMessage, message.length(), this->key);
 
   if (crypto_sign_verify_detached(sig, actualMessage, message.length(),
-                                  pk) != 0)
+                                  publicKey) != 0)
     qDebug() << "fail!";
   else
     qDebug() << "win";
