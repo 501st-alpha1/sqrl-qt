@@ -121,8 +121,8 @@ QByteArray SqrlIdentity::signMessage(QString message, QByteArray privateKey) {
   }
 
   // Prepare the private key
-  unsigned char sk[crypto_sign_PUBLICKEYBYTES];
-  memcpy(sk, privateKey.data(), crypto_sign_PUBLICKEYBYTES);
+  unsigned char sk[crypto_sign_SECRETKEYBYTES];
+  memcpy(sk, privateKey.data(), crypto_sign_SECRETKEYBYTES);
 
   // Now the public key
   unsigned char pk[crypto_sign_PUBLICKEYBYTES];
