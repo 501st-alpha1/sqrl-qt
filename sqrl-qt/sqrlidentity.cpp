@@ -131,17 +131,14 @@ QByteArray SqrlIdentity::signMessage(QString message, QByteArray privateKey) {
   qDebug() << "pk " << pk;
   qDebug() << "sk " << sk;
 
-  unsigned char sealedMessage[crypto_sign_BYTES + message.length()];
-  unsigned long long sealedMessageLen;
 
-  crypto_sign(sealedMessage, &sealedMessageLen,
-              (unsigned char*)message.toAscii().constData(), message.length(),
-              sk);
+  unsigned char* actualMessage = (unsigned char*)message.toAscii().constData();
+  unsigned char sig[crypto_sign_BYTES];
 
-  unsigned char unsealedMessage[message.length()];
-  unsigned long long unsealedMessageLen;
+  crypto_sign_detached(sig, NULL, actualMessage, message.length(), sk);
 
-  if (crypto_sign_open(unsealedMessage, &unsealedMessageLen, sealedMessage, sealedMessageLen, pk) != 0)
+  if (crypto_sign_verify_detached(sig, actualMessage, message.length(),
+                                  pk) != 0)
     qDebug() << "fail!";
   else
     qDebug() << "win";
