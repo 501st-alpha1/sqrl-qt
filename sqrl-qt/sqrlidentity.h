@@ -2,20 +2,21 @@
 #define SQRLIDENTITY_H
 
 #include <QUrl>
+#include <sodium.h>
 
 class SqrlIdentity {
  public:
   SqrlIdentity();
   bool createIdentity();
   bool loadIdentity();
-  QByteArray getKey();
+  unsigned char* getKey();
   QString getHexKey();
   QByteArray makeDomainPrivateKey(QString domain);
   QByteArray signMessage(QString message, QByteArray privateKey);
   bool authenticate(QUrl url);
 
  private:
-  QByteArray key;
+  unsigned char key[crypto_sign_SECRETKEYBYTES];
 };
 
 #endif

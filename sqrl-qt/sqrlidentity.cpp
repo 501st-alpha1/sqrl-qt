@@ -20,15 +20,18 @@ bool SqrlIdentity::createIdentity() {
   qDebug() << "Security warning: don't use this key for anything but testing!";
 
   qDebug() << "Currently the key is HARD-CODED!! Very bad!!";
-  const char* key = "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
-  QByteArray keyBytes = QByteArray::fromHex(key);
-  this->key = keyBytes;
+  QString seed = "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
+  unsigned char actualSeed[crypto_sign_SEEDBYTES];
+  memcpy(actualSeed, seed.data(), crypto_sign_SEEDBYTES);
+  unsigned char pk[crypto_sign_PUBLICKEYBYTES];
+  crypto_sign_seed_keypair(pk, this->key, actualSeed);
 
   QString filename = QDir::homePath() + "/.sqrl/ident.txt";
   QFile file(filename);
 
   if (file.open(QIODevice::WriteOnly)) {
-    file.write(this->key);
+    file.write((char*)this->key, crypto_sign_SECRETKEYBYTES);
+    file.close();
   }
   else {
     qDebug() << "Error: couldn't open file for writing.";
@@ -44,27 +47,45 @@ bool SqrlIdentity::createIdentity() {
 bool SqrlIdentity::loadIdentity() {
   QString filename = QDir::homePath() + "/.sqrl/ident.txt";
   QFile file(filename);
-  QByteArray key;
 
-  if (file.open(QIODevice::ReadOnly)) {
-    key = file.readLine();
+  if (file.size() == crypto_sign_SECRETKEYBYTES) {
+    if (file.open(QIODevice::ReadOnly)) {
+      unsigned char* temp = (unsigned char*)file.readAll().data();
+      memcpy(this->key, temp, crypto_sign_SECRETKEYBYTES);
+
+      return true;
+    }
   }
 
-  if (key.size() == 32) {
-    this->key = key;
-    return true;
-  }
-  else {
-    return false;
-  }
+  return false;
 }
 
-QByteArray SqrlIdentity::getKey() {
+unsigned char* SqrlIdentity::getKey() {
   return this->key;
 }
 
+/*
+ * Via. http://stackoverflow.com/a/12417415/2747593
+ */
+QString getStringFromUnsignedChar(unsigned char *str) {
+  QString s;
+  QString result = "";
+
+  // Print String in Reverse order....
+  for (unsigned int i = 0; i < crypto_sign_SECRETKEYBYTES; i++) {
+      s = QString("%1").arg(str[i],0,16);
+
+      if(s.length() == 1)
+        result.append("0");
+
+      result.append(s);
+  }
+
+  return result;
+}
+
 QString SqrlIdentity::getHexKey() {
-  return this->key.toHex();
+  return getStringFromUnsignedChar(this->key);
 }
 
 QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
