@@ -128,9 +128,23 @@ QByteArray SqrlIdentity::signMessage(QString message, QByteArray privateKey) {
   unsigned char pk[crypto_sign_PUBLICKEYBYTES];
   crypto_sign_ed25519_sk_to_pk(pk, sk);
 
-  qDebug() << "pk " << pk;
-  qDebug() << "sk " << sk;
+  /*
+   * Debugging
+   */
+  printf("pk ");
+  for (unsigned int i = 0; i < crypto_sign_PUBLICKEYBYTES; ++i) {
+    printf("%02x", (unsigned char)pk[i]);
+  }
+  printf("\n");
 
+  printf("sk ");
+  for (unsigned int i = 0; i < crypto_sign_SECRETKEYBYTES; ++i) {
+    printf("%02x", (unsigned char)sk[i]);
+  }
+  printf("\n");
+  /*
+   * End debugging
+   */
 
   unsigned char* actualMessage = (unsigned char*)message.toAscii().constData();
   unsigned char sig[crypto_sign_BYTES];
