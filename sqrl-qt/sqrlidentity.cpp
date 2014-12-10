@@ -20,7 +20,7 @@ bool SqrlIdentity::createIdentity() {
   qDebug() << "Security warning: don't use this key for anything but testing!";
 
   qDebug() << "Currently the key is HARD-CODED!! Very bad!!";
-  QString seed = "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
+  QString seed = "0123456789ABCDEF0123456789ABCDEF";
   memcpy(this->key, seed.data(), crypto_sign_SEEDBYTES);
 
   QString filename = QDir::homePath() + "/.sqrl/ident.txt";
