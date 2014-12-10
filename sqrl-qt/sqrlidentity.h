@@ -16,7 +16,7 @@ class SqrlIdentity {
   bool authenticate(QUrl url);
 
  private:
-  unsigned char key[crypto_sign_SECRETKEYBYTES];
+  unsigned char key[crypto_sign_SEEDBYTES];
 };
 
 #endif

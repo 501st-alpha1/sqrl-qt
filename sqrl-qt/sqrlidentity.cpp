@@ -21,16 +21,13 @@ bool SqrlIdentity::createIdentity() {
 
   qDebug() << "Currently the key is HARD-CODED!! Very bad!!";
   QString seed = "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF";
-  unsigned char actualSeed[crypto_sign_SEEDBYTES];
-  memcpy(actualSeed, seed.data(), crypto_sign_SEEDBYTES);
-  unsigned char pk[crypto_sign_PUBLICKEYBYTES];
-  crypto_sign_seed_keypair(pk, this->key, actualSeed);
+  memcpy(this->key, seed.data(), crypto_sign_SEEDBYTES);
 
   QString filename = QDir::homePath() + "/.sqrl/ident.txt";
   QFile file(filename);
 
   if (file.open(QIODevice::WriteOnly)) {
-    file.write((char*)this->key, crypto_sign_SECRETKEYBYTES);
+    file.write((char*)this->key, crypto_sign_SEEDBYTES);
     file.close();
   }
   else {
@@ -48,7 +45,7 @@ bool SqrlIdentity::loadIdentity() {
   QString filename = QDir::homePath() + "/.sqrl/ident.txt";
   QFile file(filename);
 
-  if (file.size() == crypto_sign_SECRETKEYBYTES) {
+  if (file.size() == crypto_sign_SEEDBYTES) {
     if (file.open(QIODevice::ReadOnly)) {
       unsigned char* temp = (unsigned char*)file.readAll().data();
       memcpy(this->key, temp, crypto_sign_SECRETKEYBYTES);
@@ -72,7 +69,7 @@ QString getStringFromUnsignedChar(unsigned char *str) {
   QString result = "";
 
   // Print String in Reverse order....
-  for (unsigned int i = 0; i < crypto_sign_SECRETKEYBYTES; i++) {
+  for (unsigned int i = 0; i < crypto_sign_SEEDBYTES; i++) {
       s = QString("%1").arg(str[i],0,16);
 
       if(s.length() == 1)
@@ -121,13 +118,15 @@ QByteArray SqrlIdentity::signMessage(QString message, QByteArray key) {
     return NULL;
   }
 
-  // Prepare the private key
-  unsigned char privateKey[crypto_sign_SECRETKEYBYTES];
-  memcpy(privateKey, key, crypto_sign_SECRETKEYBYTES);
+  // Prepare the seed
+  unsigned char seed[crypto_sign_SEEDBYTES];
+  memcpy(seed, key, crypto_sign_SEEDBYTES);
 
-  // Now the public key
+  // Prepare public and private keys
+  unsigned char privateKey[crypto_sign_SECRETKEYBYTES];
   unsigned char publicKey[crypto_sign_PUBLICKEYBYTES];
-  crypto_sign_ed25519_sk_to_pk(publicKey, privateKey);
+
+  crypto_sign_seed_keypair(publicKey, privateKey, seed);
 
   /*
    * Debugging
