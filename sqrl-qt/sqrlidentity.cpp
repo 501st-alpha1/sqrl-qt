@@ -11,6 +11,14 @@
 SqrlIdentity::SqrlIdentity() {
 }
 
+unsigned char* getUnsignedCharFromString(QString str, int len) {
+  unsigned char* result = new unsigned char[crypto_sign_SEEDBYTES];
+  for (int i = 0; i < len; ++i) {
+    result[i] = (unsigned char)str.at(i).toAscii();
+  }
+  return result;
+}
+
 /*
  * Generate a new SQRL identity.
  * Need to add **LOTS** of entropy here.
@@ -21,13 +29,16 @@ bool SqrlIdentity::createIdentity() {
 
   qDebug() << "Currently the key is HARD-CODED!! Very bad!!";
   QString seed = "0123456789ABCDEF0123456789ABCDEF";
-  memcpy(this->key, seed.data(), crypto_sign_SEEDBYTES);
+  this->key = getUnsignedCharFromString(seed, seed.length());
 
   QString filename = QDir::homePath() + "/.sqrl/ident.txt";
   QFile file(filename);
 
   if (file.open(QIODevice::WriteOnly)) {
-    file.write((char*)this->key, crypto_sign_SEEDBYTES);
+    QTextStream out(&file);
+    for (unsigned int i = 0; i < crypto_sign_SEEDBYTES; ++i) {
+      out << (char)this->key[i];
+    }
     file.close();
   }
   else {
@@ -47,8 +58,10 @@ bool SqrlIdentity::loadIdentity() {
 
   if (file.size() == crypto_sign_SEEDBYTES) {
     if (file.open(QIODevice::ReadOnly)) {
-      unsigned char* temp = (unsigned char*)file.readAll().data();
-      memcpy(this->key, temp, crypto_sign_SECRETKEYBYTES);
+      QTextStream in(&file);
+      QString seed = in.readAll();
+      this->key = getUnsignedCharFromString(seed, seed.length());
+      file.close();
 
       return true;
     }
@@ -61,21 +74,12 @@ unsigned char* SqrlIdentity::getKey() {
   return this->key;
 }
 
-/*
- * Via. http://stackoverflow.com/a/12417415/2747593
- */
 QString getStringFromUnsignedChar(unsigned char *str) {
-  QString s;
   QString result = "";
 
-  // Print String in Reverse order....
   for (unsigned int i = 0; i < crypto_sign_SEEDBYTES; i++) {
-      s = QString("%1").arg(str[i],0,16);
-
-      if(s.length() == 1)
-        result.append("0");
-
-      result.append(s);
+    QChar c = str[i];
+    result.append(c);
   }
 
   return result;
