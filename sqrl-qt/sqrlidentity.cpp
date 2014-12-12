@@ -116,22 +116,9 @@ QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
   }
 }
 
-QByteArray SqrlIdentity::signMessage(QString message, QByteArray key) {
-  if (sodium_init() == -1) {
-    qDebug() << "Error: sodium_init failed.";
-    return NULL;
-  }
-
-  // Prepare the seed
-  unsigned char seed[crypto_sign_SEEDBYTES];
-  memcpy(seed, key, crypto_sign_SEEDBYTES);
-
-  // Prepare public and private keys
-  unsigned char privateKey[crypto_sign_SECRETKEYBYTES];
-  unsigned char publicKey[crypto_sign_PUBLICKEYBYTES];
-
-  crypto_sign_seed_keypair(publicKey, privateKey, seed);
-
+unsigned char* SqrlIdentity::signMessage(QString message,
+                                         unsigned char* privateKey,
+                                         unsigned char* publicKey) {
   /*
    * Debugging
    */
@@ -156,19 +143,37 @@ QByteArray SqrlIdentity::signMessage(QString message, QByteArray key) {
   crypto_sign_detached(sig, NULL, actualMessage, message.length(), privateKey);
 
   if (crypto_sign_verify_detached(sig, actualMessage, message.length(),
-                                  publicKey) != 0)
-    qDebug() << "fail!";
-  else
-    qDebug() << "win";
+                                  publicKey) != 0) {
+    qDebug() << "Signing failed!";
+    return NULL;
+  }
 
-  return NULL;
+  unsigned char* ret = sig;
+
+  return ret;
 }
 
 bool SqrlIdentity::authenticate(QUrl url) {
-  QByteArray domainPrivateKey = this->makeDomainPrivateKey(url.host());
+  if (sodium_init() == -1) {
+    qDebug() << "Error: sodium_init failed.";
+    return false;
+  }
+
+  QByteArray domainSeed = this->makeDomainPrivateKey(url.host());
+
+  // Prepare the seed
+  unsigned char seed[crypto_sign_SEEDBYTES];
+  memcpy(seed, domainSeed, crypto_sign_SEEDBYTES);
+
+  // Prepare public and private keys
+  unsigned char privateKey[crypto_sign_SECRETKEYBYTES];
+  unsigned char publicKey[crypto_sign_PUBLICKEYBYTES];
+
+  // Generate keys from seed
+  crypto_sign_seed_keypair(publicKey, privateKey, seed);
 
   QString message = url.host() + url.path() + "?nut=" + url.queryItemValue("nut");
-  QByteArray signature = this->signMessage(message, domainPrivateKey);
+  unsigned char* signature = this->signMessage(message, privateKey, publicKey);
 
   return false;
 }
