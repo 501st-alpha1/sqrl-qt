@@ -4,7 +4,7 @@
 #include <QString>
 #include <QFile>
 #include <QDir>
-#include "sqrlidentity.cpp"
+#include "sqrlidentity.h"
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent), ui(new Ui::MainWindow) {

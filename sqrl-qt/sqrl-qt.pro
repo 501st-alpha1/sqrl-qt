@@ -16,11 +16,13 @@ CONFIG += crypto
 SOURCES += main.cpp\
         mainwindow.cpp \
     identitycreationwindowpage1.cpp \
-    identitycreationwindowpage2.cpp
+    identitycreationwindowpage2.cpp \
+    sqrlidentity.cpp
 
 HEADERS  += mainwindow.h \
     identitycreationwindowpage1.h \
-    identitycreationwindowpage2.h
+    identitycreationwindowpage2.h \
+    sqrlidentity.h
 
 FORMS    += mainwindow.ui \
     identitycreationwindowpage1.ui \
