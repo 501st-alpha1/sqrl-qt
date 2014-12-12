@@ -3,8 +3,11 @@
 
 #include <QUrl>
 #include <sodium.h>
+#include <QNetworkReply>
 
-class SqrlIdentity {
+class SqrlIdentity : QObject {
+  Q_OBJECT
+
  public:
   SqrlIdentity();
   bool createIdentity();
@@ -15,6 +18,9 @@ class SqrlIdentity {
   unsigned char* signMessage(QString message, unsigned char* privateKey,
                              unsigned char* publicKey);
   bool authenticate(QUrl url);
+
+  public slots:
+    void replyFinished(QNetworkReply* reply);
 
  private:
   unsigned char* key;

@@ -7,6 +7,8 @@
 #include <QtCrypto>
 #include <QStringList>
 #include <sodium.h>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
 
 SqrlIdentity::SqrlIdentity() {
 }
@@ -153,6 +155,10 @@ unsigned char* SqrlIdentity::signMessage(QString message,
   return ret;
 }
 
+void SqrlIdentity::replyFinished(QNetworkReply* reply) {
+  qDebug() << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+}
+
 bool SqrlIdentity::authenticate(QUrl url) {
   if (sodium_init() == -1) {
     qDebug() << "Error: sodium_init failed.";
@@ -174,6 +180,21 @@ bool SqrlIdentity::authenticate(QUrl url) {
 
   QString message = url.host() + url.path() + "?nut=" + url.queryItemValue("nut");
   unsigned char* signature = this->signMessage(message, privateKey, publicKey);
+
+  QNetworkAccessManager* manager = new QNetworkAccessManager();
+  QUrl post("https://" + message);
+  QNetworkRequest request(post);
+
+  request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+  QUrl params;
+  params.addQueryItem("key",getStringFromUnsignedChar(publicKey));
+  params.addQueryItem("signature",getStringFromUnsignedChar(signature));
+
+  QObject::connect(manager, SIGNAL(finished(QNetworkReply*)), (QObject*)this,
+                   SLOT(replyFinished(QNetworkReply*)));
+
+  manager->post(request, params.encodedQuery());
 
   return false;
 }
