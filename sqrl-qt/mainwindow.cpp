@@ -33,10 +33,6 @@ void MainWindow::on_lineEdit_returnPressed() {
   ui->label_5->setText(domainKey.toHex());
 }
 
-void MainWindow::on_lineEdit_2_returnPressed() {
-  //ident->signMessage(ui->lineEdit_2->text(), temp2);
-}
-
 void MainWindow::on_pushButton_2_clicked() {
   ident->authenticate(ui->lineEdit_3->text());
 }

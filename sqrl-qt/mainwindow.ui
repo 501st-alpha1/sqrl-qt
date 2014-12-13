@@ -84,32 +84,6 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>150</y>
-      <width>711</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Sign message:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_2">
-       <property name="text">
-        <string>/sqrl?nut=1234567890abcdefghijkl</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
       <y>60</y>
       <width>1261</width>
       <height>24</height>
@@ -145,7 +119,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>190</y>
+      <y>150</y>
       <width>511</width>
       <height>24</height>
      </rect>
