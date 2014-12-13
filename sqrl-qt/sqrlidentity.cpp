@@ -102,7 +102,8 @@ QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
     return NULL;
   }
   else {
-    QCA::MessageAuthenticationCode hmacObject("hmac(sha256)",QCA::SecureArray());
+    QCA::MessageAuthenticationCode hmacObject("hmac(sha256)",
+                                              QCA::SecureArray());
 
     QCA::SymmetricKey keyObject(key);
 
@@ -178,14 +179,16 @@ bool SqrlIdentity::authenticate(QUrl url) {
   // Generate keys from seed
   crypto_sign_seed_keypair(publicKey, privateKey, seed);
 
-  QString message = url.host() + url.path() + "?nut=" + url.queryItemValue("nut");
+  QString message = url.host() + url.path() + "?nut="
+    + url.queryItemValue("nut");
   unsigned char* signature = this->signMessage(message, privateKey, publicKey);
 
   QNetworkAccessManager* manager = new QNetworkAccessManager();
   QUrl post("https://" + message);
   QNetworkRequest request(post);
 
-  request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+  request.setHeader(QNetworkRequest::ContentTypeHeader,
+                    "application/x-www-form-urlencoded");
 
   QUrl params;
   params.addQueryItem("key",getStringFromUnsignedChar(publicKey));
