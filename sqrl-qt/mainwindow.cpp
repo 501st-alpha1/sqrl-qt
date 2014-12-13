@@ -28,11 +28,6 @@ void MainWindow::on_pushButton_clicked() {
   identWiz->show();
 }
 
-void MainWindow::on_lineEdit_returnPressed() {
-  QByteArray domainKey = ident->makeDomainPrivateKey(ui->lineEdit->text());
-  ui->label_5->setText(domainKey.toHex());
-}
-
 void MainWindow::on_pushButton_2_clicked() {
   ident->authenticate(ui->lineEdit_3->text());
 }
