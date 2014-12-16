@@ -78,7 +78,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -107,7 +107,7 @@
        <item>
         <widget class="QLineEdit" name="lineEdit_3">
          <property name="text">
-          <string>sqrl://domain.com/sqrl?nut=1234567890abcdefghijkl</string>
+          <string>sqrl://grc.com/sqrl?nut=1234567890abcdefghijkl</string>
          </property>
         </widget>
        </item>
