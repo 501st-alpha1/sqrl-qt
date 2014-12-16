@@ -158,6 +158,7 @@ unsigned char* SqrlIdentity::signMessage(QString message,
 
 void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   qDebug() << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+  qDebug() << reply->readAll();
 }
 
 bool SqrlIdentity::authenticate(QUrl url) {
@@ -190,9 +191,26 @@ bool SqrlIdentity::authenticate(QUrl url) {
   request.setHeader(QNetworkRequest::ContentTypeHeader,
                     "application/x-www-form-urlencoded");
 
+  const QString CRLF = "\r\n";
+  QString client = "ver=1" + CRLF
+    + "cmd=query" + CRLF
+    + "idk=" + getStringFromUnsignedChar(publicKey) + CRLF;
+
+  QByteArray client2(client.toAscii());
+  QString client3 = client2.toBase64();
+  qDebug() << "client string: " + client3;
+  client3.chop(1);
+  qDebug() << "final client string: " + client3;
+
+  QString server = url.toString().toAscii().toBase64();
+  qDebug() << "server string: " + server;
+  server.chop(2);
+  qDebug() << "final server string: " + server;
+
   QUrl params;
-  params.addQueryItem("key",getStringFromUnsignedChar(publicKey));
-  params.addQueryItem("signature",getStringFromUnsignedChar(signature));
+  params.addQueryItem("client",client);
+  params.addQueryItem("server",server);
+  params.addQueryItem("ids",getStringFromUnsignedChar(signature));
 
   QObject::connect(manager, SIGNAL(finished(QNetworkReply*)), (QObject*)this,
                    SLOT(replyFinished(QNetworkReply*)));
