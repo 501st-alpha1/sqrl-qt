@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = sqrl-qt
 TEMPLATE = app
-LIBS += -lqca -lsodium
+LIBS += -lqca2 -lsodium
 CONFIG += crypto
 
 SOURCES += main.cpp\
