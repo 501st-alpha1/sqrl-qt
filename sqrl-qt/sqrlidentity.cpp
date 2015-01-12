@@ -212,10 +212,14 @@ bool SqrlIdentity::authenticate(QUrl url) {
   server.chop(2);
   qDebug() << "final server string: " + server;
 
+  QString sig = this->base64url(getStringFromUnsignedChar(signature));
+  sig.chop(1);
+  qDebug() << "final sig: " << sig;
+
   QUrl params;
   params.addQueryItem("client",client);
   params.addQueryItem("server",server);
-  params.addQueryItem("ids",getStringFromUnsignedChar(signature));
+  params.addQueryItem("ids",sig);
 
   qDebug() << "full path: " << params.toString();
 
