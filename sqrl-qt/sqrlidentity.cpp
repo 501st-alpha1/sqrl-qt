@@ -195,12 +195,14 @@ bool SqrlIdentity::authenticate(QUrl url) {
   request.setHeader(QNetworkRequest::ContentTypeHeader,
                     "application/x-www-form-urlencoded");
 
+  QString idk = this->base64url(getStringFromUnsignedChar(publicKey));
+  idk.chop(1);
+  qDebug() << "idk: " << idk;
+
   const QString CRLF = "\r\n";
   QString client = "ver=1" + CRLF
-    + "idk=" + getStringFromUnsignedChar(publicKey) + CRLF
+    + "idk=" + idk + CRLF
     + "cmd=query" + CRLF;
-
-  qDebug() << "idk: " << getStringFromUnsignedChar(publicKey);
 
   client = this->base64url(client);
   qDebug() << "client string: " + client;
