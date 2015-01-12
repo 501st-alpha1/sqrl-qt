@@ -161,6 +161,10 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   qDebug() << reply->readAll();
 }
 
+QString SqrlIdentity::base64url(QString input) {
+  return input.toAscii().toBase64();
+}
+
 bool SqrlIdentity::authenticate(QUrl url) {
   if (sodium_init() == -1) {
     qDebug() << "Error: sodium_init failed.";
@@ -198,13 +202,12 @@ bool SqrlIdentity::authenticate(QUrl url) {
 
   qDebug() << "idk: " << getStringFromUnsignedChar(publicKey);
 
-  QByteArray client2(client.toAscii());
-  QString client3 = client2.toBase64();
-  qDebug() << "client string: " + client3;
-  client3.chop(1);
-  qDebug() << "final client string: " + client3;
+  client = this->base64url(client);
+  qDebug() << "client string: " + client;
+  client.chop(2);
+  qDebug() << "final client string: " + client;
 
-  QString server = url.toString().toAscii().toBase64();
+  QString server = this->base64url(url.toString());
   qDebug() << "server string: " + server;
   server.chop(2);
   qDebug() << "final server string: " + server;
