@@ -186,7 +186,6 @@ bool SqrlIdentity::authenticate(QUrl url) {
 
   QString message = url.host() + url.path() + "?nut="
     + url.queryItemValue("nut");
-  unsigned char* signature = this->signMessage(message, privateKey, publicKey);
 
   QNetworkAccessManager* manager = new QNetworkAccessManager();
   QUrl post("https://" + message);
@@ -216,6 +215,9 @@ bool SqrlIdentity::authenticate(QUrl url) {
   server.chop(2);
   qDebug() << "final server string: " + server;
 
+  message = client + server;
+
+  unsigned char* signature = this->signMessage(message, privateKey, publicKey);
   QString sig = this->base64url(getStringFromUnsignedChar(signature));
   sig.chop(1);
   qDebug() << "final sig: " << sig;
