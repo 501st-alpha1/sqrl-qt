@@ -193,8 +193,10 @@ bool SqrlIdentity::authenticate(QUrl url) {
 
   const QString CRLF = "\r\n";
   QString client = "ver=1" + CRLF
-    + "cmd=query" + CRLF
-    + "idk=" + getStringFromUnsignedChar(publicKey) + CRLF;
+    + "idk=" + getStringFromUnsignedChar(publicKey) + CRLF
+    + "cmd=query" + CRLF;
+
+  qDebug() << "idk: " << getStringFromUnsignedChar(publicKey);
 
   QByteArray client2(client.toAscii());
   QString client3 = client2.toBase64();
@@ -211,6 +213,8 @@ bool SqrlIdentity::authenticate(QUrl url) {
   params.addQueryItem("client",client);
   params.addQueryItem("server",server);
   params.addQueryItem("ids",getStringFromUnsignedChar(signature));
+
+  qDebug() << "full path: " << params.toString();
 
   QObject::connect(manager, SIGNAL(finished(QNetworkReply*)), (QObject*)this,
                    SLOT(replyFinished(QNetworkReply*)));
