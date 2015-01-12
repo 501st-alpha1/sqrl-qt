@@ -199,6 +199,7 @@ bool SqrlIdentity::authenticate(QUrl url) {
   idk.chop(1);
   qDebug() << "idk: " << idk;
 
+  // Client arg
   const QString CRLF = "\r\n";
   QString client = "ver=1" + CRLF
     + "idk=" + idk + CRLF
@@ -209,6 +210,7 @@ bool SqrlIdentity::authenticate(QUrl url) {
   client.chop(2);
   qDebug() << "final client string: " + client;
 
+  // Server arg
   QString server = this->base64url(url.toString());
   qDebug() << "server string: " + server;
   server.chop(2);
