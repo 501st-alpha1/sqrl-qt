@@ -202,10 +202,9 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   }
 
   QString rawReply = reply->readAll();
-  qDebug() << "raw reply:" << rawReply;
 
   QMap<QString,QString> parsedReply = this->parseArgs(rawReply);
-  qDebug() << "map:" << parsedReply;
+  qDebug() << "parsed reply:" << parsedReply;
 
   if (parsedReply.value("ver") != "1") {
     qDebug() << "Error: unknown SQRL version:" << parsedReply.value("ver");
