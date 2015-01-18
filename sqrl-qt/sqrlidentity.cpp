@@ -156,6 +156,25 @@ unsigned char* SqrlIdentity::signMessage(QString message,
   return ret;
 }
 
+QMap<QString,QString> SqrlIdentity::parseArgs(QString input) {
+  QMap<QString,QString> output;
+  QStringList list = input.split("\r\n",QString::SkipEmptyParts);
+
+  for (int i = 0; i < list.size(); ++i) {
+    QString line = list.at(i);
+
+    // Split line based on first '='
+    int j = line.indexOf('=');
+    QString var = line.left(j);
+    QString val = line.mid(j + 1);
+
+    // Insert into map
+    output.insert(var, val);
+  }
+
+  return output;
+}
+
 void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   QVariant ret = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
 
@@ -184,6 +203,9 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
 
   QString rawReply = reply->readAll();
   qDebug() << "raw reply:" << rawReply;
+
+  QMap<QString,QString> parsedReply = this->parseArgs(rawReply);
+  qDebug() << "map:" << parsedReply;
 }
 
 QString SqrlIdentity::base64url(QString input) {

@@ -20,6 +20,7 @@ class SqrlIdentity : QObject {
   bool authenticate(QUrl url);
   QString base64url(QString input);
   QString trim(QString input);
+  QMap<QString,QString> parseArgs(QString input);
 
   public slots:
     void replyFinished(QNetworkReply* reply);
