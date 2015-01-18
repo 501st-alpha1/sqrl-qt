@@ -157,7 +157,31 @@ unsigned char* SqrlIdentity::signMessage(QString message,
 }
 
 void SqrlIdentity::replyFinished(QNetworkReply* reply) {
-  qDebug() << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+  QVariant ret = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+
+  if (ret.type() != QVariant::Int) {
+    qDebug() << "Return type is not an int. Something probably went wrong.";
+    qDebug() << "ret: " << ret;
+    return;
+  }
+
+  int retCode = ret.toInt();
+  switch (retCode) {
+    case 200:
+      qDebug() << "Successful HTTP request. Continuing.";
+      break;
+    case 301:
+      qDebug() << "Illegal SQRL query or bad URL... (Response code 301)";
+      qDebug() << "Body is: " << reply->readAll();
+      return;
+    case 404:
+      qDebug() << "Page not found! (Response code 404)";
+      return;
+    default:
+      qDebug() << "I don't know about response code" << retCode;
+      return;
+  }
+
   qDebug() << reply->readAll();
 }
 
