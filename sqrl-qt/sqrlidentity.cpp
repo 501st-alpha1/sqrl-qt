@@ -206,6 +206,10 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
 
   QMap<QString,QString> parsedReply = this->parseArgs(rawReply);
   qDebug() << "map:" << parsedReply;
+
+  if (parsedReply.value("ver") != "1") {
+    qDebug() << "Error: unknown SQRL version:" << parsedReply.value("ver");
+  }
 }
 
 QString SqrlIdentity::base64url(QString input) {
