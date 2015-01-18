@@ -193,6 +193,7 @@ bool SqrlIdentity::authenticate(QUrl url) {
 
   request.setHeader(QNetworkRequest::ContentTypeHeader,
                     "application/x-www-form-urlencoded");
+  request.setRawHeader("User-Agent","SQRL/1");
 
   QString idk = this->base64url(getStringFromUnsignedChar(publicKey));
   idk.chop(1);
