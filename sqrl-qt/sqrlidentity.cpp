@@ -196,6 +196,7 @@ bool SqrlIdentity::authenticate(QUrl url) {
 
   QString message = url.host() + url.path() + "?nut="
     + url.queryItemValue("nut");
+  qDebug() << "message:" << message;
 
   QNetworkAccessManager* manager = new QNetworkAccessManager();
   QUrl post("https://" + message);
@@ -232,7 +233,7 @@ bool SqrlIdentity::authenticate(QUrl url) {
   params.addQueryItem("server",server);
   params.addQueryItem("ids",sig);
 
-  qDebug() << "full path: " << params.toString();
+  qDebug() << "params: " << params.encodedQuery();
 
   QObject::connect(manager, SIGNAL(finished(QNetworkReply*)), (QObject*)this,
                    SLOT(replyFinished(QNetworkReply*)));
