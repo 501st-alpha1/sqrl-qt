@@ -162,13 +162,15 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
 }
 
 QString SqrlIdentity::base64url(QString input) {
-  return input.toAscii().toBase64();
+  return this->trim(input.toAscii().toBase64());
 }
 
 QString SqrlIdentity::trim(QString input) {
   QString out = input;
+  qDebug() << "  pre-trim:" << out;
   while (out.endsWith("="))
     out.chop(1);
+  qDebug() << "  post-trim:" << out;
 
   return out;
 }
@@ -203,9 +205,8 @@ bool SqrlIdentity::authenticate(QUrl url) {
                     "application/x-www-form-urlencoded");
   request.setRawHeader("User-Agent","SQRL/1");
 
+  qDebug() << "idk:";
   QString idk = this->base64url(getStringFromUnsignedChar(publicKey));
-  idk = this->trim(idk);
-  qDebug() << "idk: " << idk;
 
   // Client arg
   const QString CRLF = "\r\n";
@@ -213,23 +214,18 @@ bool SqrlIdentity::authenticate(QUrl url) {
     + "idk=" + idk + CRLF
     + "cmd=query" + CRLF;
 
+  qDebug() << "client string:";
   client = this->base64url(client);
-  qDebug() << "client string: " + client;
-  client = this->trim(client);
-  qDebug() << "final client string: " + client;
 
   // Server arg
+  qDebug() << "server string: ";
   QString server = this->base64url(url.toString());
-  qDebug() << "server string: " + server;
-  server = this->trim(server);
-  qDebug() << "final server string: " + server;
 
   message = client + server;
 
   unsigned char* signature = this->signMessage(message, privateKey, publicKey);
+  qDebug() << "sig:";
   QString sig = this->base64url(getStringFromUnsignedChar(signature));
-  sig = this->trim(sig);
-  qDebug() << "final sig: " << sig;
 
   QUrl params;
   params.addQueryItem("client",client);
