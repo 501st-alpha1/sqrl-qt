@@ -10,6 +10,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 
+const QString CRLF = "\r\n";
+
 SqrlIdentity::SqrlIdentity() {
 }
 
@@ -158,7 +160,7 @@ unsigned char* SqrlIdentity::signMessage(QString message,
 
 QMap<QString,QString> SqrlIdentity::parseArgs(QString input) {
   QMap<QString,QString> output;
-  QStringList list = input.split("\r\n",QString::SkipEmptyParts);
+  QStringList list = input.split(CRLF,QString::SkipEmptyParts);
 
   for (int i = 0; i < list.size(); ++i) {
     QString line = list.at(i);
@@ -260,7 +262,6 @@ bool SqrlIdentity::authenticate(QUrl url) {
   QString idk = this->base64url(getStringFromUnsignedChar(publicKey));
 
   // Client arg
-  const QString CRLF = "\r\n";
   QString client = "ver=1" + CRLF
     + "idk=" + idk + CRLF
     + "cmd=query" + CRLF;
