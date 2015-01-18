@@ -182,7 +182,8 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
       return;
   }
 
-  qDebug() << reply->readAll();
+  QString rawReply = reply->readAll();
+  qDebug() << "raw reply:" << rawReply;
 }
 
 QString SqrlIdentity::base64url(QString input) {
