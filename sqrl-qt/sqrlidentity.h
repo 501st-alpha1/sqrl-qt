@@ -19,6 +19,7 @@ class SqrlIdentity : QObject {
                              unsigned char* publicKey);
   bool authenticate(QUrl url);
   QString base64url(QString input);
+  QString trim(QString input);
 
   public slots:
     void replyFinished(QNetworkReply* reply);

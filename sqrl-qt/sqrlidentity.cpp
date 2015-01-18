@@ -165,6 +165,14 @@ QString SqrlIdentity::base64url(QString input) {
   return input.toAscii().toBase64();
 }
 
+QString SqrlIdentity::trim(QString input) {
+  QString out = input;
+  while (out.endsWith("="))
+    out.chop(1);
+
+  return out;
+}
+
 bool SqrlIdentity::authenticate(QUrl url) {
   if (sodium_init() == -1) {
     qDebug() << "Error: sodium_init failed.";
@@ -196,7 +204,7 @@ bool SqrlIdentity::authenticate(QUrl url) {
   request.setRawHeader("User-Agent","SQRL/1");
 
   QString idk = this->base64url(getStringFromUnsignedChar(publicKey));
-  idk.chop(1);
+  idk = this->trim(idk);
   qDebug() << "idk: " << idk;
 
   // Client arg
@@ -207,20 +215,20 @@ bool SqrlIdentity::authenticate(QUrl url) {
 
   client = this->base64url(client);
   qDebug() << "client string: " + client;
-  client.chop(2);
+  client = this->trim(client);
   qDebug() << "final client string: " + client;
 
   // Server arg
   QString server = this->base64url(url.toString());
   qDebug() << "server string: " + server;
-  server.chop(2);
+  server = this->trim(server);
   qDebug() << "final server string: " + server;
 
   message = client + server;
 
   unsigned char* signature = this->signMessage(message, privateKey, publicKey);
   QString sig = this->base64url(getStringFromUnsignedChar(signature));
-  sig.chop(1);
+  sig = this->trim(sig);
   qDebug() << "final sig: " << sig;
 
   QUrl params;
