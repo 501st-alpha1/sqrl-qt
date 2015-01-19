@@ -12,6 +12,17 @@
 
 const QString CRLF = "\r\n";
 
+// Transaction Information Flags
+const int TIF_IDK_MATCH = 0x01;
+const int TIF_PDK_MATCH = 0x02;
+const int TIF_IP_MATCH = 0x04;
+const int TIF_ACC_ENABLED = 0x08;
+const int TIF_ACC_LOGGED_IN = 0x10;
+const int TIF_TRANSIENT_FAILURE = 0x20;
+const int TIF_COMMAND_FAILED = 0x40;
+const int TIF_SQRL_FAILURE = 0x80;
+const int TIF_STALE_NUT = 0x100;
+
 SqrlIdentity::SqrlIdentity() {
 }
 
@@ -213,10 +224,28 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
     return;
   }
 
-  if (parsedReply.value("tif") == "80") {
+  int tif = parsedReply.value("tif").toInt();
+  if ((tif & TIF_SQRL_FAILURE) != 0) {
     qDebug() << "SQRL failure (TIF 0x80). This is probably a bug.";
-    return;
+    //return;
   }
+
+  if ((tif & TIF_COMMAND_FAILED) != 0)
+    qDebug() << "Got TIF_COMMAND_FAILED.";
+  if ((tif & TIF_IDK_MATCH) != 0)
+    qDebug() << "Got TIF_IDK_MATCH.";
+  if ((tif & TIF_PDK_MATCH) != 0)
+    qDebug() << "Got TIF_PDK_MATCH.";
+  if ((tif & TIF_IP_MATCH) != 0)
+    qDebug() << "Got TIF_IP_MATCH.";
+  if ((tif & TIF_STALE_NUT) != 0)
+    qDebug() << "Got TIF_STALE_NUT.";
+  if ((tif & TIF_ACC_ENABLED) != 0)
+    qDebug() << "Got TIF_ACC_ENABLED.";
+  if ((tif & TIF_ACC_LOGGED_IN) != 0)
+    qDebug() << "Got TIF_ACC_LOGGED_IN.";
+  if ((tif & TIF_TRANSIENT_FAILURE) != 0)
+    qDebug() << "Got TIF_TRANSIENT_FAILURE.";
 }
 
 QString SqrlIdentity::base64url(QString input) {
