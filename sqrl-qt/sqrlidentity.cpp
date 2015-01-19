@@ -210,6 +210,12 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
 
   if (parsedReply.value("ver") != "1") {
     qDebug() << "Error: unknown SQRL version:" << parsedReply.value("ver");
+    return;
+  }
+
+  if (parsedReply.value("tif") == "80") {
+    qDebug() << "SQRL failure (TIF 0x80). This is probably a bug.";
+    return;
   }
 }
 
