@@ -46,8 +46,12 @@ bool SqrlIdentity::createIdentity() {
   QString seed = "0123456789ABCDEF0123456789ABCDEF";
   this->key = getUnsignedCharFromString(seed, seed.length());
 
-  QString filename = QDir::homePath() + "/.sqrl/ident.txt";
-  QFile file(filename);
+  QString folderName = QDir::homePath() + "/.sqrl";
+  if (!QDir(folderName).exists())
+    QDir().mkdir(folderName);
+
+  QString fileName = "ident.txt";
+  QFile file(folderName + "/" + fileName);
 
   if (file.open(QIODevice::WriteOnly)) {
     QTextStream out(&file);
