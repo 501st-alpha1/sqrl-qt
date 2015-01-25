@@ -223,9 +223,16 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   QMap<QString,QString> parsedReply = this->parseArgs(rawReply);
   qDebug() << "parsed reply:" << parsedReply;
 
-  if (parsedReply.value("ver") != "1") {
-    qDebug() << "Error: unknown SQRL version:" << parsedReply.value("ver");
-    return;
+  int ver = 0;
+  if (parsedReply.contains("ver")) {
+    ver = parsedReply.take("ver").toInt();
+    if (ver != 1) {
+      qDebug() << "Error: unknown SQRL version:" << parsedReply.value("ver");
+      return;
+    }
+  }
+  else {
+    qDebug() "Error: SQRL version not found!";
   }
 
   int tif = 0;
