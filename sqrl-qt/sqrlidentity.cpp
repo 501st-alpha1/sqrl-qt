@@ -250,6 +250,15 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
     qDebug() << "Got TIF_ACC_LOGGED_IN.";
   if ((tif & TIF_TRANSIENT_FAILURE) != 0)
     qDebug() << "Got TIF_TRANSIENT_FAILURE.";
+
+  QString sfn = "";
+  if (parsedReply.contains("sfn")) {
+    sfn = parsedReply.take("sfn");
+    qDebug() << "Server is" << sfn;
+  }
+  else {
+    qDebug() << "Server name not found!";
+  }
 }
 
 QString SqrlIdentity::base64url(QString input) {
