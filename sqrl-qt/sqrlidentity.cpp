@@ -241,7 +241,7 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
     qDebug() << "Raw TIF is" << tif;
   }
   else {
-    qDebug() << "TIF not found!";
+    qDebug() << "Error: TIF not found!";
   }
 
   if ((tif & TIF_SQRL_FAILURE) != 0) {
@@ -272,7 +272,7 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
     qDebug() << "Server is" << sfn;
   }
   else {
-    qDebug() << "Server name not found!";
+    qDebug() << "Error: Server name not found!";
   }
 
   if (!parsedReply.isEmpty())
