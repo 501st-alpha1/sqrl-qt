@@ -230,7 +230,7 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
 
   int tif = 0;
   if (parsedReply.contains("tif")) {
-    tif = parsedReply.value("tif").toInt();
+    tif = parsedReply.take("tif").toInt();
     qDebug() << "Raw TIF is" << tif;
   }
   else {
