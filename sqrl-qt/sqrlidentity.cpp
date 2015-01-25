@@ -228,7 +228,15 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
     return;
   }
 
-  int tif = parsedReply.value("tif").toInt();
+  int tif = 0;
+  if (parsedReply.contains("tif")) {
+    tif = parsedReply.value("tif").toInt();
+    qDebug() << "Raw TIF is" << tif;
+  }
+  else {
+    qDebug() << "TIF not found!";
+  }
+
   if ((tif & TIF_SQRL_FAILURE) != 0) {
     qDebug() << "SQRL failure (TIF 0x80). This is probably a bug.";
     //return;
