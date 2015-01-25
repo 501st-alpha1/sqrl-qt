@@ -267,6 +267,9 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   else {
     qDebug() << "Server name not found!";
   }
+
+  if (!parsedReply.isEmpty())
+    qDebug() << "Found some extra arguments:" << parsedReply;
 }
 
 QString SqrlIdentity::base64url(QString input) {
