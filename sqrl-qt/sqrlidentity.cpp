@@ -237,7 +237,7 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
     }
   }
   else {
-    qDebug() "Error: SQRL version not found!";
+    qDebug() << "Error: SQRL version not found!";
   }
 
   // Parse Transaction Information Flags (TIFs)
