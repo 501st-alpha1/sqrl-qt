@@ -223,6 +223,11 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   QMap<QString,QString> parsedReply = this->parseArgs(rawReply);
   qDebug() << "parsed reply:" << parsedReply;
 
+  /*
+   * Ensure server knows only about SQRL version 1.0.
+   * Once there are multiple versions, will need to implement better parsing
+   * here.
+   */
   int ver = 0;
   if (parsedReply.contains("ver")) {
     ver = parsedReply.take("ver").toInt();
@@ -235,6 +240,7 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
     qDebug() "Error: SQRL version not found!";
   }
 
+  // Parse Transaction Information Flags (TIFs)
   int tif = 0;
   if (parsedReply.contains("tif")) {
     tif = parsedReply.take("tif").toInt();
@@ -266,6 +272,7 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   if ((tif & TIF_TRANSIENT_FAILURE) != 0)
     qDebug() << "Got TIF_TRANSIENT_FAILURE.";
 
+  // Parse Server Friendly Name (SFN)
   QString sfn = "";
   if (parsedReply.contains("sfn")) {
     sfn = parsedReply.take("sfn");
@@ -275,6 +282,7 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
     qDebug() << "Error: Server name not found!";
   }
 
+  // We should be able to parse all arguments.
   if (!parsedReply.isEmpty())
     qDebug() << "Found some extra arguments:" << parsedReply;
 }
