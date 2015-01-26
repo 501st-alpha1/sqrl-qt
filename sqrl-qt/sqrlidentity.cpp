@@ -195,9 +195,8 @@ QMap<QString,QString> SqrlIdentity::parseArgs(QString input) {
 void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   QVariant ret = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
 
-  if (ret.type() != QVariant::Int) {
-    qDebug() << "Return type is not an int. Something probably went wrong.";
-    qDebug() << "ret: " << ret;
+  if (ret.isNull()) {
+    qDebug() << "Error: null return type.";
     return;
   }
 
