@@ -329,6 +329,7 @@ bool SqrlIdentity::authenticate(QUrl url) {
   QNetworkAccessManager* manager = new QNetworkAccessManager();
   QUrl post("https://" + message);
   QNetworkRequest request(post);
+  qDebug() << "post:" << post;
 
   request.setHeader(QNetworkRequest::ContentTypeHeader,
                     "application/x-www-form-urlencoded");
