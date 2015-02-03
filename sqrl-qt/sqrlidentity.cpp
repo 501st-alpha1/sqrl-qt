@@ -193,6 +193,18 @@ QMap<QString,QString> SqrlIdentity::parseArgs(QString input) {
   return output;
 }
 
+int SqrlIdentity::intToHex(int input) {
+  int output = 0;
+
+  while (input > 0) {
+    int digit = input % 10;
+    output += (digit * 16);
+    input /= 10;
+  }
+
+  return output;
+}
+
 void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   QVariant ret = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
 
@@ -245,6 +257,7 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   if (parsedReply.contains("tif")) {
     tif = parsedReply.take("tif").toInt();
     qDebug() << "Raw TIF is" << tif;
+    tif = intToHex(tif); // Convert to hex for easy parsing.
   }
   else {
     qDebug() << "Error: TIF not found!";

@@ -21,6 +21,7 @@ class SqrlIdentity : QObject {
   QString base64url(QString input);
   QString trim(QString input);
   QMap<QString,QString> parseArgs(QString input);
+  int intToHex(int input);
 
   public slots:
     void replyFinished(QNetworkReply* reply);
