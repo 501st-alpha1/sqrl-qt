@@ -297,6 +297,15 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
     qDebug() << "Error: Server name not found!";
   }
 
+  QString nut = "";
+  if (parsedReply.contains("nut")) {
+    nut = parsedReply.take("nut");
+    qDebug() << "Nut is" << nut;
+  }
+  else {
+    qDebug() << "Error: Nut not found!";
+  }
+
   // We should be able to parse all arguments.
   if (!parsedReply.isEmpty())
     qDebug() << "Found some extra arguments:" << parsedReply;
