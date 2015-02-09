@@ -309,6 +309,8 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   // We should be able to parse all arguments.
   if (!parsedReply.isEmpty())
     qDebug() << "Found some extra arguments:" << parsedReply;
+  else
+    qDebug() << "All arguments parsed!";
 }
 
 QString SqrlIdentity::base64url(QString input) {
