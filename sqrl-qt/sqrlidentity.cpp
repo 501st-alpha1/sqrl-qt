@@ -335,6 +335,11 @@ bool SqrlIdentity::authenticate(QUrl url) {
 
   QByteArray domainSeed = this->makeDomainPrivateKey(url.host());
 
+  if (domainSeed.isNull()) {
+    qDebug() << "Error: domain seed generation failed.";
+    return false;
+  }
+
   // Prepare the seed
   unsigned char seed[crypto_sign_SEEDBYTES];
   memcpy(seed, domainSeed, crypto_sign_SEEDBYTES);
