@@ -306,6 +306,15 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
     qDebug() << "Error: Nut not found!";
   }
 
+  QString qry = "";
+  if (parsedReply.contains("qry")) {
+    qry = parsedReply.take("qry");
+    qDebug() << "Qry is" << qry;
+  }
+  else {
+    qDebug() << "Error: Qry not found!";
+  }
+
   // We should be able to parse all arguments.
   if (!parsedReply.isEmpty())
     qDebug() << "Found some extra arguments:" << parsedReply;
