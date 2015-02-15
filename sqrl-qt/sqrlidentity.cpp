@@ -381,6 +381,10 @@ bool SqrlIdentity::authenticate(QUrl url) {
   qDebug() << "idk:";
   QString idk = this->base64url(getStringFromUnsignedChar(publicKey));
 
+  qDebug() << "private idk:";
+  this->base64url(getStringFromUnsignedChar(privateKey)
+                  + getStringFromUnsignedChar(publicKey));
+
   // Client arg
   QString client = "ver=1" + CRLF
     + "idk=" + idk + CRLF
