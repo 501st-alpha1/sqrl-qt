@@ -16,8 +16,7 @@ const QString CRLF = "\r\n";
 const int TIF_IDK_MATCH = 0x01;
 const int TIF_PDK_MATCH = 0x02;
 const int TIF_IP_MATCH = 0x04;
-const int TIF_ACC_ENABLED = 0x08;
-const int TIF_ACC_LOGGED_IN = 0x10;
+const int TIF_SQRL_DISABLED = 0x08;
 const int TIF_TRANSIENT_FAILURE = 0x20;
 const int TIF_COMMAND_FAILED = 0x40;
 const int TIF_SQRL_FAILURE = 0x80;
@@ -282,10 +281,8 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
     qDebug() << "Got TIF_IP_MATCH.";
   if ((tif & TIF_STALE_NUT) != 0)
     qDebug() << "Got TIF_STALE_NUT.";
-  if ((tif & TIF_ACC_ENABLED) != 0)
-    qDebug() << "Got TIF_ACC_ENABLED.";
-  if ((tif & TIF_ACC_LOGGED_IN) != 0)
-    qDebug() << "Got TIF_ACC_LOGGED_IN.";
+  if ((tif & TIF_SQRL_DISABLED) != 0)
+    qDebug() << "Got TIF_SQRL_DISABLED.";
   if ((tif & TIF_TRANSIENT_FAILURE) != 0)
     qDebug() << "Got TIF_TRANSIENT_FAILURE.";
   if ((tif & TIF_CMD_NOT_SUPPORTED) != 0)
