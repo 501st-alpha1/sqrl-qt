@@ -233,6 +233,8 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   QString rawReply = reply->readAll();
   qDebug() << "raw reply:" << rawReply;
 
+  rawReply = this->unbase64url(rawReply);
+  qDebug() << "decoded raw reply:" << rawReply;
 
   QMap<QString,QString> parsedReply = this->parseArgs(rawReply);
   qDebug() << "parsed reply:" << parsedReply;
@@ -326,6 +328,10 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
 
 QString SqrlIdentity::base64url(QString input) {
   return this->trim(input.toAscii().toBase64());
+}
+
+QString SqrlIdentity::unbase64url(QString input) {
+  return QString(QByteArray::fromBase64(input.toAscii()));
 }
 
 QString SqrlIdentity::trim(QString input) {
