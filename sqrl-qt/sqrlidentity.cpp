@@ -231,6 +231,8 @@ void SqrlIdentity::replyFinished(QNetworkReply* reply) {
   }
 
   QString rawReply = reply->readAll();
+  qDebug() << "raw reply:" << rawReply;
+
 
   QMap<QString,QString> parsedReply = this->parseArgs(rawReply);
   qDebug() << "parsed reply:" << parsedReply;
