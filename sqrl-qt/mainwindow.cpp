@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QDir>
 #include "sqrlidentity.h"
+#include "sqrlauthenticator.h"
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -29,5 +30,6 @@ void MainWindow::on_pushButton_clicked() {
 }
 
 void MainWindow::on_pushButton_2_clicked() {
-  ident->authenticate(ui->lineEdit_3->text());
+  SqrlAuthenticator* auth = new SqrlAuthenticator;
+  auth->authenticate(ui->lineEdit_3->text(),this->ident);
 }
