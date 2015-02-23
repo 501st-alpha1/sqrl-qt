@@ -144,6 +144,10 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
 
   if ((tif & TIF_SQRL_FAILURE) != 0) {
     qDebug() << "SQRL failure (TIF 0x80). This is probably a bug.";
+    if ((tif & TIF_COMMAND_FAILED) != 0)
+      qDebug() << "Also got TIF_COMMAND_FAILED, as expected.";
+    else
+      qDebug() << "Didn't get TIF_COMMAND_FAILED. Server error?";
     //return;
   }
 
