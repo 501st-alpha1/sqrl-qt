@@ -132,9 +132,11 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
   // Parse Transaction Information Flags (TIFs)
   int tif = 0;
   if (parsedReply.contains("tif")) {
-    tif = parsedReply.take("tif").toInt();
-    qDebug() << "Raw TIF is" << tif;
-    tif = intToHex(tif); // Convert to hex for easy parsing.
+    bool success;
+    QString rawTif = parsedReply.take("tif");
+    qDebug() << "Raw TIF is" << rawTif;
+    tif = rawTif.toInt(&success,16);
+    qDebug() << "Parsed TIF is" << tif;
   }
   else {
     qDebug() << "Error: TIF not found!";
