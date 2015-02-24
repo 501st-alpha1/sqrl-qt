@@ -12,6 +12,5 @@ To build this project, ensure you have the following dependencies installed:
 
 * Qt 4
 * libsodium
-* Qt Cryptographic Architecture
 
 Then you may build this as you would any Qt project.

@@ -4,7 +4,6 @@
 #include <QFile>
 #include <QDir>
 #include <QByteArray>
-#include <QtCrypto>
 #include <QStringList>
 #include <sodium.h>
 
@@ -94,31 +93,21 @@ QString SqrlIdentity::getHexKey() {
 }
 
 QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
-  QCA::Initializer init;
+  int len = domain.length();
+  unsigned char* in = getUnsignedCharFromString(domain, len);
 
-  QByteArray arg = domain.toLocal8Bit();
-  QByteArray key((char*)this->getKey());
+  unsigned char out[crypto_auth_hmacsha256_BYTES];
 
-  if (!QCA::isSupported("hmac(sha256)")) {
-    qDebug() << "hmac(sha256) is not supported!";
+  crypto_auth_hmacsha256(out, in, len, this->getKey());
+
+  if (crypto_auth_hmacsha256_verify(out, in, len, this->getKey()) != 0) {
+    qDebug() << "Error! HMAC failed!";
     return NULL;
   }
-  else {
-    QCA::MessageAuthenticationCode hmacObject("hmac(sha256)",
-                                              QCA::SecureArray());
 
-    QCA::SymmetricKey keyObject(key);
+  QString outString = getStringFromUnsignedChar(out);
 
-    hmacObject.setup(key);
-
-    QCA::SecureArray converter(arg);
-
-    hmacObject.update(converter);
-
-    QCA::SecureArray result = hmacObject.final();
-
-    return result.toByteArray();
-  }
+  return outString.toLocal8Bit();
 }
 
 unsigned char* SqrlIdentity::signMessage(QString message,
