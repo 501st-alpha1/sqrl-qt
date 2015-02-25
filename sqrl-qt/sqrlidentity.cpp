@@ -142,6 +142,12 @@ unsigned char* SqrlIdentity::signMessage(QString message,
     return NULL;
   }
 
+  printf("signature ");
+  for (unsigned int i = 0; i < crypto_sign_BYTES; ++i) {
+    printf("%02x", (unsigned char)sig[i]);
+  }
+  printf("\n");
+
   unsigned char* ret = sig;
 
   return ret;
