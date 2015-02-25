@@ -28,7 +28,7 @@ SqrlAuthenticator::SqrlAuthenticator() {
 static QString getStringFromUnsignedChar(unsigned char *str, int len) {
   QString result = "";
 
-  for (int i = 0; i < len; i++) {
+  for (int i = 0; i < len; ++i) {
     QChar c = str[i];
     result.append(c);
   }
