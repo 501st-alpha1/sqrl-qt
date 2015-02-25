@@ -25,10 +25,10 @@ SqrlAuthenticator::SqrlAuthenticator() {
 /*
  * FIXME: these functions are duplicates of those in sqrlidentity.cpp
  */
-static QString getStringFromUnsignedChar(unsigned char *str) {
+static QString getStringFromUnsignedChar(unsigned char *str, int len) {
   QString result = "";
 
-  for (unsigned int i = 0; i < crypto_sign_SEEDBYTES; i++) {
+  for (int i = 0; i < len; i++) {
     QChar c = str[i];
     result.append(c);
   }
@@ -259,11 +259,15 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
   request.setRawHeader("User-Agent","SQRL/1");
 
   qDebug() << "idk:";
-  QString idk = this->base64url(getStringFromUnsignedChar(publicKey));
+  QString idk = getStringFromUnsignedChar(publicKey,
+                                          crypto_sign_PUBLICKEYBYTES);
+  idk = this->base64url(idk);
 
   qDebug() << "private idk:";
-  this->base64url(getStringFromUnsignedChar(privateKey)
-                  + getStringFromUnsignedChar(publicKey));
+  this->base64url(getStringFromUnsignedChar(privateKey,
+                                            crypto_sign_SECRETKEYBYTES)
+                  + getStringFromUnsignedChar(publicKey,
+                                              crypto_sign_PUBLICKEYBYTES));
 
   // Client arg
   QString client = "ver=1" + CRLF
@@ -281,7 +285,8 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
 
   unsigned char* signature = ident->signMessage(message, privateKey, publicKey);
   qDebug() << "sig:";
-  QString sig = this->base64url(getStringFromUnsignedChar(signature));
+  QString sig = getStringFromUnsignedChar(signature,crypto_sign_BYTES);
+  sig = this->base64url(sig);
 
   QUrl params;
   params.addQueryItem("client",client);
