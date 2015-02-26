@@ -1,7 +1,6 @@
 #ifndef SQRLIDENTITY_H
 #define SQRLIDENTITY_H
 
-#include <QUrl>
 #include <sodium.h>
 #include <QNetworkReply>
 
