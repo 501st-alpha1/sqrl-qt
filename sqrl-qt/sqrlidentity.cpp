@@ -10,14 +10,6 @@
 SqrlIdentity::SqrlIdentity() {
 }
 
-static unsigned char* getUnsignedCharFromString(QString str, int len) {
-  unsigned char* result = new unsigned char[crypto_sign_SEEDBYTES];
-  for (int i = 0; i < len; ++i) {
-    result[i] = (unsigned char)str.at(i).toAscii();
-  }
-  return result;
-}
-
 /*
  * Generate a new SQRL identity.
  * Need to add **LOTS** of entropy here.
@@ -28,7 +20,7 @@ bool SqrlIdentity::createIdentity() {
 
   qDebug() << "Currently the key is HARD-CODED!! Very bad!!";
   QString seed = "0123456789ABCDEF0123456789ABCDEF";
-  this->key = getUnsignedCharFromString(seed, seed.length());
+  this->key = SodiumWrap::getKeyFromQString(seed);
 
   QString folderName = QDir::homePath() + "/.sqrl";
   if (!QDir(folderName).exists())

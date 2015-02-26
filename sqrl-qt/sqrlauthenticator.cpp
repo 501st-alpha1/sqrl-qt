@@ -29,9 +29,9 @@ static QString getStringFromUnsignedChar(unsigned char *str, int len) {
   QString result = "";
 
   for (int i = 0; i < len; ++i) {
-    QChar c = str[i];
-    qDebug() << "str[i]" << str[i];
-    qDebug() << "c" << c;
+    QChar c = QString("%1").arg(str[i],0,16).at(0);
+    //qDebug() << "str[i]" << str[i];
+    //qDebug() << "c" << c;
     result.append(c);
   }
 
