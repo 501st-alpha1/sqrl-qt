@@ -30,6 +30,8 @@ static QString getStringFromUnsignedChar(unsigned char *str, int len) {
 
   for (int i = 0; i < len; ++i) {
     QChar c = str[i];
+    qDebug() << "str[i]" << str[i];
+    qDebug() << "c" << c;
     result.append(c);
   }
 
