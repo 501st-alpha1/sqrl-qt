@@ -17,12 +17,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     identitycreationwindowpage1.cpp \
     identitycreationwindowpage2.cpp \
+    sodiumwrap.cpp \
     sqrlauthenticator.cpp \
     sqrlidentity.cpp
 
 HEADERS  += mainwindow.h \
     identitycreationwindowpage1.h \
     identitycreationwindowpage2.h \
+    sodiumwrap.h \
     sqrlauthenticator.h \
     sqrlidentity.h
 

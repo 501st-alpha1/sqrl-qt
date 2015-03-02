@@ -6,16 +6,9 @@
 #include <QByteArray>
 #include <QStringList>
 #include <sodium.h>
+#include "sodiumwrap.h"
 
 SqrlIdentity::SqrlIdentity() {
-}
-
-static unsigned char* getUnsignedCharFromString(QString str, int len) {
-  unsigned char* result = new unsigned char[crypto_sign_SEEDBYTES];
-  for (int i = 0; i < len; ++i) {
-    result[i] = (unsigned char)str.at(i).toAscii();
-  }
-  return result;
 }
 
 /*
@@ -28,7 +21,7 @@ bool SqrlIdentity::createIdentity() {
 
   qDebug() << "Currently the key is HARD-CODED!! Very bad!!";
   QString seed = "0123456789ABCDEF0123456789ABCDEF";
-  this->key = getUnsignedCharFromString(seed, seed.length());
+  this->key = SodiumWrap::getKeyFromQString(seed);
 
   QString folderName = QDir::homePath() + "/.sqrl";
   if (!QDir(folderName).exists())
@@ -63,7 +56,7 @@ bool SqrlIdentity::loadIdentity() {
     if (file.open(QIODevice::ReadOnly)) {
       QTextStream in(&file);
       QString seed = in.readAll();
-      this->key = getUnsignedCharFromString(seed, seed.length());
+      this->key = SodiumWrap::getKeyFromQString(seed);
       file.close();
 
       return true;
@@ -94,7 +87,7 @@ QString SqrlIdentity::getHexKey() {
 
 QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
   int len = domain.length();
-  unsigned char* in = getUnsignedCharFromString(domain, len);
+  unsigned char* in = SodiumWrap::getKeyFromQString(domain);
 
   unsigned char out[crypto_auth_hmacsha256_BYTES];
 
