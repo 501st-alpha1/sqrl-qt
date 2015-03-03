@@ -5,7 +5,6 @@
 #include <QDir>
 #include <QByteArray>
 #include <QStringList>
-#include <sodium.h>
 #include "sodiumwrap.h"
 
 SqrlIdentity::SqrlIdentity() {

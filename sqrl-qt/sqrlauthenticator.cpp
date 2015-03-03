@@ -3,8 +3,8 @@
 #include <QStringList>
 #include <QNetworkReply>
 #include <QDebug>
-#include <sodium.h>
 #include "sqrlauthenticator.h"
+#include "sodiumwrap.h"
 
 const QString CRLF = "\r\n";
 
