@@ -109,7 +109,7 @@ unsigned char* SqrlIdentity::signMessage(QString message,
    * Debugging
    */
   printf("public key ");
-  for (unsigned int i = 0; i < crypto_sign_PUBLICKEYBYTES; ++i) {
+  for (unsigned int i = 0; i < SodiumWrap::PK_LEN; ++i) {
     printf("%02x", (unsigned char)publicKey[i]);
   }
   printf("\n");

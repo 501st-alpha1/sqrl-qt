@@ -13,6 +13,7 @@ class SodiumWrap : QObject {
 
   static const int SEED_LEN = crypto_sign_SEEDBYTES;
   static const int SK_LEN = crypto_sign_SECRETKEYBYTES;
+  static const int PK_LEN = crypto_sign_PUBLICKEYBYTES;
 };
 
 #endif

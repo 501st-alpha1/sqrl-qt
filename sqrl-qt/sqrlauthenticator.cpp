@@ -242,7 +242,7 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
 
   // Prepare public and private keys
   unsigned char privateKey[SodiumWrap::SK_LEN];
-  unsigned char publicKey[crypto_sign_PUBLICKEYBYTES];
+  unsigned char publicKey[SodiumWrap::PK_LEN];
 
   // Generate keys from seed
   crypto_sign_seed_keypair(publicKey, privateKey, seed);
@@ -262,14 +262,14 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
 
   qDebug() << "idk:";
   QString idk = getStringFromUnsignedChar(publicKey,
-                                          crypto_sign_PUBLICKEYBYTES);
+                                          SodiumWrap::PK_LEN);
   idk = this->base64url(idk);
 
   qDebug() << "private idk:";
   this->base64url(getStringFromUnsignedChar(privateKey,
                                             SodiumWrap::SK_LEN)
                   + getStringFromUnsignedChar(publicKey,
-                                              crypto_sign_PUBLICKEYBYTES));
+                                              SodiumWrap::PK_LEN));
 
   // Client arg
   QString client = "ver=1" + CRLF
