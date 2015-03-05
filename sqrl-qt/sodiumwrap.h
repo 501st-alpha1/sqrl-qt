@@ -12,6 +12,7 @@ class SodiumWrap : QObject {
   static unsigned char* getKeyFromQString(QString input);
 
   static const int SEED_LEN = crypto_sign_SEEDBYTES;
+  static const int SK_LEN = crypto_sign_SECRETKEYBYTES;
 };
 
 #endif

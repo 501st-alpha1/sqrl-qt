@@ -241,7 +241,7 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
   memcpy(seed, domainSeed, SodiumWrap::SEED_LEN);
 
   // Prepare public and private keys
-  unsigned char privateKey[crypto_sign_SECRETKEYBYTES];
+  unsigned char privateKey[SodiumWrap::SK_LEN];
   unsigned char publicKey[crypto_sign_PUBLICKEYBYTES];
 
   // Generate keys from seed
@@ -267,7 +267,7 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
 
   qDebug() << "private idk:";
   this->base64url(getStringFromUnsignedChar(privateKey,
-                                            crypto_sign_SECRETKEYBYTES)
+                                            SodiumWrap::SK_LEN)
                   + getStringFromUnsignedChar(publicKey,
                                               crypto_sign_PUBLICKEYBYTES));
 

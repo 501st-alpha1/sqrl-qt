@@ -115,7 +115,7 @@ unsigned char* SqrlIdentity::signMessage(QString message,
   printf("\n");
 
   printf("private key ");
-  for (unsigned int i = 0; i < crypto_sign_SECRETKEYBYTES; ++i) {
+  for (unsigned int i = 0; i < SodiumWrap::SK_LEN; ++i) {
     printf("%02x", (unsigned char)privateKey[i]);
   }
   printf("\n");
