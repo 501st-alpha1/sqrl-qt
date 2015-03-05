@@ -31,7 +31,7 @@ bool SqrlIdentity::createIdentity() {
 
   if (file.open(QIODevice::WriteOnly)) {
     QTextStream out(&file);
-    for (unsigned int i = 0; i < crypto_sign_SEEDBYTES; ++i) {
+    for (unsigned int i = 0; i < SodiumWrap::SEED_LEN; ++i) {
       out << (char)this->key[i];
     }
     file.close();
@@ -51,7 +51,7 @@ bool SqrlIdentity::loadIdentity() {
   QString filename = QDir::homePath() + "/.sqrl/ident.txt";
   QFile file(filename);
 
-  if (file.size() == crypto_sign_SEEDBYTES) {
+  if (file.size() == SodiumWrap::SEED_LEN) {
     if (file.open(QIODevice::ReadOnly)) {
       QTextStream in(&file);
       QString seed = in.readAll();
@@ -72,7 +72,7 @@ unsigned char* SqrlIdentity::getKey() {
 static QString getStringFromUnsignedChar(unsigned char *str) {
   QString result = "";
 
-  for (unsigned int i = 0; i < crypto_sign_SEEDBYTES; i++) {
+  for (unsigned int i = 0; i < SodiumWrap::SEED_LEN; i++) {
     QChar c = str[i];
     result.append(c);
   }

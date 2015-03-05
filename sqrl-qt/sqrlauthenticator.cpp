@@ -39,7 +39,7 @@ static QString getStringFromUnsignedChar(unsigned char *str, int len) {
 }
 
 static unsigned char* getUnsignedCharFromString(QString str, int len) {
-  unsigned char* result = new unsigned char[crypto_sign_SEEDBYTES];
+  unsigned char* result = new unsigned char[SodiumWrap::SEED_LEN];
   for (int i = 0; i < len; ++i) {
     result[i] = (unsigned char)str.at(i).toAscii();
   }
@@ -237,8 +237,8 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
   }
 
   // Prepare the seed
-  unsigned char seed[crypto_sign_SEEDBYTES];
-  memcpy(seed, domainSeed, crypto_sign_SEEDBYTES);
+  unsigned char seed[SodiumWrap::SEED_LEN];
+  memcpy(seed, domainSeed, SodiumWrap::SEED_LEN);
 
   // Prepare public and private keys
   unsigned char privateKey[crypto_sign_SECRETKEYBYTES];
