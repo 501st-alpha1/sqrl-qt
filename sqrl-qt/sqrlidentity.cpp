@@ -85,17 +85,7 @@ QString SqrlIdentity::getHexKey() {
 }
 
 QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
-  int len = domain.length();
-  unsigned char* in = SodiumWrap::getKeyFromQString(domain);
-
-  unsigned char out[crypto_auth_hmacsha256_BYTES];
-
-  crypto_auth_hmacsha256(out, in, len, this->getKey());
-
-  if (crypto_auth_hmacsha256_verify(out, in, len, this->getKey()) != 0) {
-    qDebug() << "Error! HMAC failed!";
-    return NULL;
-  }
+  unsigned char* out = SodiumWrap::hmacSha256(this->getKey(), domain);
 
   QString outString = getStringFromUnsignedChar(out);
 

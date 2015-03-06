@@ -1,5 +1,6 @@
 #include <sodium.h>
 #include "sodiumwrap.h"
+#include <QDebug>
 
 static unsigned char* getUnsignedCharFromString(QString str, int len) {
   unsigned char* result = new unsigned char[crypto_sign_SEEDBYTES];
@@ -11,4 +12,18 @@ static unsigned char* getUnsignedCharFromString(QString str, int len) {
 
 unsigned char* SodiumWrap::getKeyFromQString(QString input) {
   return getUnsignedCharFromString(input, input.length());
+}
+
+unsigned char* SodiumWrap::hmacSha256(unsigned char* key, QString message) {
+  unsigned char* out = new unsigned char[crypto_auth_hmacsha256_BYTES];
+  unsigned char* in = getUnsignedCharFromString(message, message.length());
+
+  crypto_auth_hmacsha256(out, in, message.length(), key);
+
+  if (crypto_auth_hmacsha256_verify(out, in, message.length(), key) != 0) {
+    qDebug() << "Error! HMAC failed!";
+    return NULL;
+  }
+
+  return out;
 }
