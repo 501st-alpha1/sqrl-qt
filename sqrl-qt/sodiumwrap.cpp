@@ -30,12 +30,14 @@ unsigned char* SodiumWrap::hmacSha256(unsigned char* key, QString message) {
 }
 
 unsigned char* SodiumWrap::signDetached(QString message,
-                                        unsigned char* privateKey,
+                                        QByteArray privateKey,
                                         unsigned char* publicKey) {
   unsigned char* actualMessage = getUnsignedCharFromString(message);
   unsigned char* out = new unsigned char[SodiumWrap::SIG_LEN];
+  unsigned char* actualPrivateKey = new unsigned char[SodiumWrap::SK_LEN];
+  memcpy(actualPrivateKey, privateKey, SodiumWrap::SK_LEN);
 
-  crypto_sign_detached(out, NULL, actualMessage, message.length(), privateKey);
+  crypto_sign_detached(out, NULL, actualMessage, message.length(), actualPrivateKey);
 
   if (crypto_sign_verify_detached(out, actualMessage, message.length(),
                                   publicKey) != 0) {
@@ -46,7 +48,7 @@ unsigned char* SodiumWrap::signDetached(QString message,
   return out;
 }
 
-unsigned char* SodiumWrap::generatePrivateKey(QByteArray seed) {
+QByteArray SodiumWrap::generatePrivateKey(QByteArray seed) {
   // Prepare the seed
   unsigned char actualSeed[SodiumWrap::SEED_LEN];
   memcpy(actualSeed, seed, SodiumWrap::SEED_LEN);
@@ -58,13 +60,18 @@ unsigned char* SodiumWrap::generatePrivateKey(QByteArray seed) {
   // Generate keys from seed
   crypto_sign_seed_keypair(publicKey, privateKey, actualSeed);
 
-  return privateKey;
+  QByteArray ret((char*)privateKey);
+  //memcpy(ret, privateKey, SodiumWrap::SK_LEN);
+
+  return ret;
 }
 
-unsigned char* SodiumWrap::ed25519PrivateKeyToPublicKey(unsigned char* privateKey) {
+unsigned char* SodiumWrap::ed25519PrivateKeyToPublicKey(QByteArray privateKey) {
   unsigned char* publicKey = new unsigned char[SodiumWrap::PK_LEN];
+  unsigned char* actualPrivateKey = new unsigned char[SodiumWrap::SK_LEN];
+  memcpy(actualPrivateKey, privateKey, SodiumWrap::SK_LEN);
 
-  crypto_sign_ed25519_sk_to_pk(publicKey, privateKey);
+  crypto_sign_ed25519_sk_to_pk(publicKey, actualPrivateKey);
 
   return publicKey;
 }

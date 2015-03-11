@@ -229,7 +229,7 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
     return false;
   }
 
-  unsigned char* privateKey = SodiumWrap::generatePrivateKey(domainSeed);
+  QByteArray privateKey = SodiumWrap::generatePrivateKey(domainSeed);
   unsigned char* publicKey = SodiumWrap::ed25519PrivateKeyToPublicKey(privateKey);
 
   QString message = url.host() + url.path() + "?nut="
@@ -251,8 +251,8 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
   idk = this->base64url(idk);
 
   qDebug() << "private idk:";
-  this->base64url(getStringFromUnsignedChar(privateKey,
-                                            SodiumWrap::SK_LEN)
+  QString privateKeyString(privateKey);
+  this->base64url(privateKeyString
                   + getStringFromUnsignedChar(publicKey,
                                               SodiumWrap::PK_LEN));
 
