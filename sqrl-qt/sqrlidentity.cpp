@@ -114,7 +114,7 @@ unsigned char* SqrlIdentity::signMessage(QString message,
    */
 
   unsigned char* actualMessage = (unsigned char*)message.toAscii().constData();
-  unsigned char sig[crypto_sign_BYTES];
+  unsigned char sig[SodiumWrap::SIG_LEN];
 
   crypto_sign_detached(sig, NULL, actualMessage, message.length(), privateKey);
 
@@ -125,7 +125,7 @@ unsigned char* SqrlIdentity::signMessage(QString message,
   }
 
   printf("signature ");
-  for (unsigned int i = 0; i < crypto_sign_BYTES; ++i) {
+  for (unsigned int i = 0; i < SodiumWrap::SIG_LEN; ++i) {
     printf("%02x", (unsigned char)sig[i]);
   }
   printf("\n");
