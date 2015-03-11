@@ -2,6 +2,11 @@
 #include "sodiumwrap.h"
 #include <QDebug>
 
+static QByteArray getQByteArrayFromUnsignedChar(unsigned char* input) {
+  QByteArray ret((char*)input);
+  return ret;
+}
+
 static unsigned char* getUnsignedCharFromString(QString str) {
   int len = str.length();
   unsigned char* result = new unsigned char[len];
@@ -60,10 +65,7 @@ QByteArray SodiumWrap::generatePrivateKey(QByteArray seed) {
   // Generate keys from seed
   crypto_sign_seed_keypair(publicKey, privateKey, actualSeed);
 
-  QByteArray ret((char*)privateKey);
-  //memcpy(ret, privateKey, SodiumWrap::SK_LEN);
-
-  return ret;
+  return getQByteArrayFromUnsignedChar(privateKey);
 }
 
 unsigned char* SodiumWrap::ed25519PrivateKeyToPublicKey(QByteArray privateKey) {
