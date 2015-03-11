@@ -1,7 +1,6 @@
 #ifndef SQRLIDENTITY_H
 #define SQRLIDENTITY_H
 
-#include <sodium.h>
 #include <QNetworkReply>
 
 class SqrlIdentity : QObject {
