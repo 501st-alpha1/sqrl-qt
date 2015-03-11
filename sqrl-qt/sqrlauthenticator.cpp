@@ -38,13 +38,6 @@ static QString getStringFromUnsignedChar(unsigned char *str, int len) {
   return result;
 }
 
-static unsigned char* getUnsignedCharFromString(QString str, int len) {
-  unsigned char* result = new unsigned char[SodiumWrap::SEED_LEN];
-  for (int i = 0; i < len; ++i) {
-    result[i] = (unsigned char)str.at(i).toAscii();
-  }
-  return result;
-}
 /*
  * End duplicate functions
  */
