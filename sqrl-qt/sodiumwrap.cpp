@@ -4,7 +4,7 @@
 
 static unsigned char* getUnsignedCharFromString(QString str) {
   int len = str.length();
-  unsigned char* result = new unsigned char[crypto_sign_SEEDBYTES];
+  unsigned char* result = new unsigned char[len];
   for (int i = 0; i < len; ++i) {
     result[i] = (unsigned char)str.at(i).toAscii();
   }
