@@ -236,16 +236,8 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
     return false;
   }
 
-  // Prepare the seed
-  unsigned char seed[SodiumWrap::SEED_LEN];
-  memcpy(seed, domainSeed, SodiumWrap::SEED_LEN);
-
-  // Prepare public and private keys
-  unsigned char privateKey[SodiumWrap::SK_LEN];
-  unsigned char publicKey[SodiumWrap::PK_LEN];
-
-  // Generate keys from seed
-  crypto_sign_seed_keypair(publicKey, privateKey, seed);
+  unsigned char* privateKey = SodiumWrap::generatePrivateKey(domainSeed);
+  unsigned char* publicKey = SodiumWrap::ed25519PrivateKeyToPublicKey(privateKey);
 
   QString message = url.host() + url.path() + "?nut="
     + url.queryItemValue("nut");

@@ -45,3 +45,26 @@ unsigned char* SodiumWrap::signDetached(QString message,
 
   return out;
 }
+
+unsigned char* SodiumWrap::generatePrivateKey(QByteArray seed) {
+  // Prepare the seed
+  unsigned char actualSeed[SodiumWrap::SEED_LEN];
+  memcpy(actualSeed, seed, SodiumWrap::SEED_LEN);
+
+  // Prepare public and private keys
+  unsigned char* privateKey = new unsigned char[SodiumWrap::SK_LEN];
+  unsigned char publicKey[SodiumWrap::PK_LEN];
+
+  // Generate keys from seed
+  crypto_sign_seed_keypair(publicKey, privateKey, actualSeed);
+
+  return privateKey;
+}
+
+unsigned char* SodiumWrap::ed25519PrivateKeyToPublicKey(unsigned char* privateKey) {
+  unsigned char* publicKey = new unsigned char[SodiumWrap::PK_LEN];
+
+  crypto_sign_ed25519_sk_to_pk(publicKey, privateKey);
+
+  return publicKey;
+}
