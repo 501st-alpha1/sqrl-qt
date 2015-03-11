@@ -113,16 +113,7 @@ unsigned char* SqrlIdentity::signMessage(QString message,
    * End debugging
    */
 
-  unsigned char* actualMessage = (unsigned char*)message.toAscii().constData();
-  unsigned char sig[SodiumWrap::SIG_LEN];
-
-  crypto_sign_detached(sig, NULL, actualMessage, message.length(), privateKey);
-
-  if (crypto_sign_verify_detached(sig, actualMessage, message.length(),
-                                  publicKey) != 0) {
-    qDebug() << "Signing failed!";
-    return NULL;
-  }
+  unsigned char* sig = SodiumWrap::signDetached(message, privateKey, publicKey);
 
   printf("signature ");
   for (unsigned int i = 0; i < SodiumWrap::SIG_LEN; ++i) {

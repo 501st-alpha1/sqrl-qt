@@ -27,3 +27,21 @@ unsigned char* SodiumWrap::hmacSha256(unsigned char* key, QString message) {
 
   return out;
 }
+
+unsigned char* SodiumWrap::signDetached(QString message,
+                                        unsigned char* privateKey,
+                                        unsigned char* publicKey) {
+  unsigned char* actualMessage = getUnsignedCharFromString(message,
+                                                           message.length());
+  unsigned char* out = new unsigned char[SodiumWrap::SIG_LEN];
+
+  crypto_sign_detached(out, NULL, actualMessage, message.length(), privateKey);
+
+  if (crypto_sign_verify_detached(out, actualMessage, message.length(),
+                                  publicKey) != 0) {
+    qDebug() << "Signing failed!";
+    return NULL;
+  }
+
+  return out;
+}
