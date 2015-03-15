@@ -94,7 +94,7 @@ QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
 
 unsigned char* SqrlIdentity::signMessage(QString message,
                                          QByteArray privateKey,
-                                         unsigned char* publicKey) {
+                                         QByteArray publicKey) {
   /*
    * Debugging
    */

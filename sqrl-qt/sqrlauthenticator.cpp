@@ -230,7 +230,7 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
   }
 
   QByteArray privateKey = SodiumWrap::generatePrivateKey(domainSeed);
-  unsigned char* publicKey = SodiumWrap::ed25519PrivateKeyToPublicKey(privateKey);
+  QByteArray publicKey = SodiumWrap::ed25519PrivateKeyToPublicKey(privateKey);
 
   QString message = url.host() + url.path() + "?nut="
     + url.queryItemValue("nut");
@@ -245,16 +245,14 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
                     "application/x-www-form-urlencoded");
   request.setRawHeader("User-Agent","SQRL/1");
 
+  QString publicKeyString(publicKey);
   qDebug() << "idk:";
-  QString idk = getStringFromUnsignedChar(publicKey,
-                                          SodiumWrap::PK_LEN);
+  QString idk = publicKeyString;
   idk = this->base64url(idk);
 
   qDebug() << "private idk:";
   QString privateKeyString(privateKey);
-  this->base64url(privateKeyString
-                  + getStringFromUnsignedChar(publicKey,
-                                              SodiumWrap::PK_LEN));
+  this->base64url(privateKeyString + publicKeyString);
 
   // Client arg
   QString client = "ver=1" + CRLF

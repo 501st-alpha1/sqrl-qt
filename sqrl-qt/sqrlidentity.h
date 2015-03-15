@@ -14,7 +14,7 @@ class SqrlIdentity : QObject {
   QString getHexKey();
   QByteArray makeDomainPrivateKey(QString domain);
   unsigned char* signMessage(QString message, QByteArray privateKey,
-                             unsigned char* publicKey);
+                             QByteArray publicKey);
 
  private:
   unsigned char* key;
