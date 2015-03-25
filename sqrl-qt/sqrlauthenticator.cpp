@@ -16,8 +16,6 @@ const int TIF_SQRL_DISABLED = 0x08;
 const int TIF_TRANSIENT_FAILURE = 0x20;
 const int TIF_COMMAND_FAILED = 0x40;
 const int TIF_SQRL_FAILURE = 0x80;
-const int TIF_STALE_NUT = 0x100;
-const int TIF_CMD_NOT_SUPPORTED = 0x200;
 
 SqrlAuthenticator::SqrlAuthenticator() {
 }
@@ -154,14 +152,10 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
     qDebug() << "Got TIF_PDK_MATCH.";
   if ((tif & TIF_IP_MATCH) != 0)
     qDebug() << "Got TIF_IP_MATCH.";
-  if ((tif & TIF_STALE_NUT) != 0)
-    qDebug() << "Got TIF_STALE_NUT.";
   if ((tif & TIF_SQRL_DISABLED) != 0)
     qDebug() << "Got TIF_SQRL_DISABLED.";
   if ((tif & TIF_TRANSIENT_FAILURE) != 0)
     qDebug() << "Got TIF_TRANSIENT_FAILURE.";
-  if ((tif & TIF_CMD_NOT_SUPPORTED) != 0)
-    qDebug() << "Got TIF_CMD_NOT_SUPPORTED";
 
   // Parse Server Friendly Name (SFN)
   QString sfn = "";
