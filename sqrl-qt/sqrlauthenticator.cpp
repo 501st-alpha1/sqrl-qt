@@ -20,26 +20,6 @@ const int TIF_SQRL_FAILURE = 0x80;
 SqrlAuthenticator::SqrlAuthenticator() {
 }
 
-/*
- * FIXME: these functions are duplicates of those in sqrlidentity.cpp
- */
-static QString getStringFromUnsignedChar(unsigned char *str, int len) {
-  QString result = "";
-
-  for (int i = 0; i < len; ++i) {
-    QChar c = str[i];
-    qDebug() << "str[i]" << str[i];
-    qDebug() << "c" << c;
-    result.append(c);
-  }
-
-  return result;
-}
-
-/*
- * End duplicate functions
- */
-
 QMap<QString,QString> SqrlAuthenticator::parseArgs(QString input) {
   QMap<QString,QString> output;
   QStringList list = input.split(CRLF,QString::SkipEmptyParts);
