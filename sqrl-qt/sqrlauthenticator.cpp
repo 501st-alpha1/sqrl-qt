@@ -143,9 +143,11 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
       qDebug() << "Didn't get TIF_COMMAND_FAILED. Server error?";
     //return;
   }
+  else {
+    if ((tif & TIF_COMMAND_FAILED) != 0)
+      qDebug() << "Got unexpected TIF_COMMAND_FAILED.";
+  }
 
-  if ((tif & TIF_COMMAND_FAILED) != 0)
-    qDebug() << "Got TIF_COMMAND_FAILED.";
   if ((tif & TIF_IDK_MATCH) != 0)
     qDebug() << "Got TIF_IDK_MATCH.";
   if ((tif & TIF_PDK_MATCH) != 0)
