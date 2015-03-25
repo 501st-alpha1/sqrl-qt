@@ -92,9 +92,9 @@ QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
   return outString.toLocal8Bit();
 }
 
-unsigned char* SqrlIdentity::signMessage(QString message,
-                                         QByteArray privateKey,
-                                         QByteArray publicKey) {
+QByteArray SqrlIdentity::signMessage(QString message,
+                                     QByteArray privateKey,
+                                     QByteArray publicKey) {
   /*
    * Debugging
    */
@@ -113,7 +113,7 @@ unsigned char* SqrlIdentity::signMessage(QString message,
    * End debugging
    */
 
-  unsigned char* sig = SodiumWrap::signDetached(message, privateKey, publicKey);
+  QByteArray sig = SodiumWrap::signDetached(message, privateKey, publicKey);
 
   printf("signature ");
   for (unsigned int i = 0; i < SodiumWrap::SIG_LEN; ++i) {
@@ -121,7 +121,5 @@ unsigned char* SqrlIdentity::signMessage(QString message,
   }
   printf("\n");
 
-  unsigned char* ret = sig;
-
-  return ret;
+  return sig;
 }

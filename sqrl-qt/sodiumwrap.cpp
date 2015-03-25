@@ -34,9 +34,9 @@ unsigned char* SodiumWrap::hmacSha256(unsigned char* key, QString message) {
   return out;
 }
 
-unsigned char* SodiumWrap::signDetached(QString message,
-                                        QByteArray privateKey,
-                                        QByteArray publicKey) {
+QByteArray SodiumWrap::signDetached(QString message,
+                                    QByteArray privateKey,
+                                    QByteArray publicKey) {
   unsigned char* actualMessage = getUnsignedCharFromString(message);
   unsigned char* out = new unsigned char[SodiumWrap::SIG_LEN];
   unsigned char* actualPrivateKey = new unsigned char[SodiumWrap::SK_LEN];
@@ -52,7 +52,7 @@ unsigned char* SodiumWrap::signDetached(QString message,
     return NULL;
   }
 
-  return out;
+  return getQByteArrayFromUnsignedChar(out);
 }
 
 QByteArray SodiumWrap::generatePrivateKey(QByteArray seed) {

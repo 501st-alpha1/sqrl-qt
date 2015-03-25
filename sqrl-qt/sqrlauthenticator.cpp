@@ -268,14 +268,14 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
 
   message = client + server;
 
-  unsigned char* signature = ident->signMessage(message, privateKey, publicKey);
+  QByteArray signature = ident->signMessage(message, privateKey, publicKey);
   printf("returned signature ");
   for (unsigned int i = 0; i < SodiumWrap::SIG_LEN; ++i) {
     printf("%02x", (unsigned char)signature[i]);
   }
   printf("\n");
   qDebug() << "sig:";
-  QString sig = getStringFromUnsignedChar(signature,SodiumWrap::SIG_LEN);
+  QString sig(signature);
   qDebug() << sig;
   sig = this->base64url(sig);
 
