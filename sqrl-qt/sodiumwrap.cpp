@@ -20,13 +20,15 @@ unsigned char* SodiumWrap::getKeyFromQString(QString input) {
   return getUnsignedCharFromString(input);
 }
 
-unsigned char* SodiumWrap::hmacSha256(unsigned char* key, QString message) {
+unsigned char* SodiumWrap::hmacSha256(QByteArray key, QString message) {
   unsigned char* out = new unsigned char[crypto_auth_hmacsha256_BYTES];
   unsigned char* in = getUnsignedCharFromString(message);
+  unsigned char* actualKey = new unsigned char[SodiumWrap::SEED_LEN];
+  memcpy(actualKey, key, SodiumWrap::SEED_LEN);
 
-  crypto_auth_hmacsha256(out, in, message.length(), key);
+  crypto_auth_hmacsha256(out, in, message.length(), actualKey);
 
-  if (crypto_auth_hmacsha256_verify(out, in, message.length(), key) != 0) {
+  if (crypto_auth_hmacsha256_verify(out, in, message.length(), actualKey) != 0) {
     qDebug() << "Error! HMAC failed!";
     return NULL;
   }
