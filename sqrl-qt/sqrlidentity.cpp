@@ -86,11 +86,9 @@ QString SqrlIdentity::getHexKey() {
 
 QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
   QByteArray key(getStringFromUnsignedChar(this->getKey()).toLocal8Bit());
-  unsigned char* out = SodiumWrap::hmacSha256(key, domain);
+  QByteArray out = SodiumWrap::hmacSha256(key, domain);
 
-  QString outString = getStringFromUnsignedChar(out);
-
-  return outString.toLocal8Bit();
+  return out;
 }
 
 QByteArray SqrlIdentity::signMessage(QString message,

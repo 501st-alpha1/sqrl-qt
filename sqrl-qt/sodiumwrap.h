@@ -10,7 +10,7 @@ class SodiumWrap : QObject {
 
  public:
   static unsigned char* getKeyFromQString(QString input);
-  static unsigned char* hmacSha256(QByteArray key, QString message);
+  static QByteArray hmacSha256(QByteArray key, QString message);
   static QByteArray signDetached(QString message, QByteArray privateKey,
                                  QByteArray publicKey);
   static QByteArray generatePrivateKey(QByteArray seed);

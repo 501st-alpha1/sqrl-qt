@@ -20,7 +20,7 @@ unsigned char* SodiumWrap::getKeyFromQString(QString input) {
   return getUnsignedCharFromString(input);
 }
 
-unsigned char* SodiumWrap::hmacSha256(QByteArray key, QString message) {
+QByteArray SodiumWrap::hmacSha256(QByteArray key, QString message) {
   unsigned char* out = new unsigned char[crypto_auth_hmacsha256_BYTES];
   unsigned char* in = getUnsignedCharFromString(message);
   unsigned char* actualKey = new unsigned char[SodiumWrap::SEED_LEN];
@@ -33,7 +33,7 @@ unsigned char* SodiumWrap::hmacSha256(QByteArray key, QString message) {
     return NULL;
   }
 
-  return out;
+  return getQByteArrayFromUnsignedChar(out);
 }
 
 QByteArray SodiumWrap::signDetached(QString message,
