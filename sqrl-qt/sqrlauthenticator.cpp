@@ -250,11 +250,6 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
     return false;
   }
 
-  printf("returned signature ");
-  for (unsigned int i = 0; i < SodiumWrap::SIG_LEN; ++i) {
-    printf("%02x", (unsigned char)signature[i]);
-  }
-  printf("\n");
   qDebug() << "sig:";
   QString sig(signature);
   qDebug() << sig;

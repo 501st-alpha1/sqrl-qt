@@ -94,31 +94,7 @@ QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
 QByteArray SqrlIdentity::signMessage(QString message,
                                      QByteArray privateKey,
                                      QByteArray publicKey) {
-  /*
-   * Debugging
-   */
-  printf("public key ");
-  for (unsigned int i = 0; i < SodiumWrap::PK_LEN; ++i) {
-    printf("%02x", (unsigned char)publicKey[i]);
-  }
-  printf("\n");
-
-  printf("private key ");
-  for (unsigned int i = 0; i < SodiumWrap::SK_LEN; ++i) {
-    printf("%02x", (unsigned char)privateKey[i]);
-  }
-  printf("\n");
-  /*
-   * End debugging
-   */
-
   QByteArray sig = SodiumWrap::signDetached(message, privateKey, publicKey);
-
-  printf("signature ");
-  for (unsigned int i = 0; i < SodiumWrap::SIG_LEN; ++i) {
-    printf("%02x", (unsigned char)sig[i]);
-  }
-  printf("\n");
 
   return sig;
 }
