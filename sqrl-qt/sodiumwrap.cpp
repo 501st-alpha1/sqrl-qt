@@ -15,7 +15,7 @@ static QByteArray getQByteArrayFromUnsignedChar(unsigned char* input, int len) {
   }
   printf("\n");
   qDebug() << "QByteArray output:";
-  qDebug() << ret;
+  qDebug() << ret.toHex();
   return ret;
 }
 
