@@ -4,6 +4,13 @@
 
 static QByteArray getQByteArrayFromUnsignedChar(unsigned char* input) {
   QByteArray ret((char*)input);
+  printf("unsigned char input: ");
+  for (int i = 0; i < ret.length(); ++i) {
+    printf("%02x", (unsigned char)input[i]);
+  }
+  printf("\n");
+  qDebug() << "QByteArray output:";
+  qDebug() << ret;
   return ret;
 }
 
