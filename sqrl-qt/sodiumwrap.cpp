@@ -2,8 +2,13 @@
 #include "sodiumwrap.h"
 #include <QDebug>
 
-static QByteArray getQByteArrayFromUnsignedChar(unsigned char* input) {
-  QByteArray ret((char*)input);
+static QByteArray getQByteArrayFromUnsignedChar(unsigned char* input, int len) {
+  QByteArray ret;
+
+  for (int i = 0; i < len; ++i) {
+    ret.append((char)input[i]);
+  }
+
   printf("unsigned char input: ");
   for (int i = 0; i < ret.length(); ++i) {
     printf("%02x", (unsigned char)input[i]);
@@ -46,7 +51,7 @@ QByteArray SodiumWrap::hmacSha256(QByteArray key, QString message) {
     return NULL;
   }
 
-  return getQByteArrayFromUnsignedChar(out);
+  return getQByteArrayFromUnsignedChar(out, crypto_auth_hmacsha256_BYTES);
 }
 
 QByteArray SodiumWrap::signDetached(QString message,
@@ -65,7 +70,7 @@ QByteArray SodiumWrap::signDetached(QString message,
     return NULL;
   }
 
-  return getQByteArrayFromUnsignedChar(out);
+  return getQByteArrayFromUnsignedChar(out, SodiumWrap::SIG_LEN);
 }
 
 QByteArray SodiumWrap::generatePrivateKey(QByteArray seed) {
@@ -79,7 +84,7 @@ QByteArray SodiumWrap::generatePrivateKey(QByteArray seed) {
   // Generate keys from seed
   crypto_sign_seed_keypair(publicKey, privateKey, actualSeed);
 
-  return getQByteArrayFromUnsignedChar(privateKey);
+  return getQByteArrayFromUnsignedChar(privateKey, SodiumWrap::SK_LEN);
 }
 
 QByteArray SodiumWrap::ed25519PrivateKeyToPublicKey(QByteArray privateKey) {
@@ -88,7 +93,7 @@ QByteArray SodiumWrap::ed25519PrivateKeyToPublicKey(QByteArray privateKey) {
 
   crypto_sign_ed25519_sk_to_pk(publicKey, actualPrivateKey);
 
-  QByteArray ret = getQByteArrayFromUnsignedChar(publicKey);
+  QByteArray ret = getQByteArrayFromUnsignedChar(publicKey, SodiumWrap::PK_LEN);
 
   return ret;
 }
