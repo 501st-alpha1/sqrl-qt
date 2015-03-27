@@ -44,10 +44,6 @@ static unsigned char* getUnsignedCharFromString(QString str) {
   return result;
 }
 
-unsigned char* SodiumWrap::getKeyFromQString(QString input) {
-  return getUnsignedCharFromString(input);
-}
-
 QByteArray SodiumWrap::hmacSha256(QByteArray key, QString message) {
   unsigned char* out = new unsigned char[crypto_auth_hmacsha256_BYTES];
   unsigned char* in = getUnsignedCharFromString(message);

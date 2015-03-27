@@ -19,8 +19,8 @@ bool SqrlIdentity::createIdentity() {
   qDebug() << "Security warning: don't use this key for anything but testing!";
 
   qDebug() << "Currently the key is HARD-CODED!! Very bad!!";
-  QString seed = "0123456789ABCDEF0123456789ABCDEF";
-  this->key = SodiumWrap::getKeyFromQString(seed);
+  QByteArray seed = "0123456789ABCDEF0123456789ABCDEF";
+  this->key = seed;
 
   QString folderName = QDir::homePath() + "/.sqrl";
   if (!QDir(folderName).exists())
@@ -54,8 +54,8 @@ bool SqrlIdentity::loadIdentity() {
   if (file.size() == SodiumWrap::SEED_LEN) {
     if (file.open(QIODevice::ReadOnly)) {
       QTextStream in(&file);
-      QString seed = in.readAll();
-      this->key = SodiumWrap::getKeyFromQString(seed);
+      QByteArray seed = in.readAll().toAscii();
+      this->key = seed;
       file.close();
 
       return true;
@@ -65,28 +65,12 @@ bool SqrlIdentity::loadIdentity() {
   return false;
 }
 
-unsigned char* SqrlIdentity::getKey() {
+QByteArray SqrlIdentity::getKey() {
   return this->key;
 }
 
-static QString getStringFromUnsignedChar(unsigned char *str) {
-  QString result = "";
-
-  for (unsigned int i = 0; i < SodiumWrap::SEED_LEN; i++) {
-    QChar c = str[i];
-    result.append(c);
-  }
-
-  return result;
-}
-
-QString SqrlIdentity::getHexKey() {
-  return getStringFromUnsignedChar(this->key);
-}
-
 QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
-  QByteArray key(getStringFromUnsignedChar(this->getKey()).toLocal8Bit());
-  QByteArray out = SodiumWrap::hmacSha256(key, domain);
+  QByteArray out = SodiumWrap::hmacSha256(this->key, domain);
 
   return out;
 }
