@@ -245,6 +245,11 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
   message = client + server;
 
   QByteArray signature = ident->signMessage(message, privateKey, publicKey);
+  if (signature.isNull()) {
+    qDebug() << "Error: signing failed!";
+    return false;
+  }
+
   printf("returned signature ");
   for (unsigned int i = 0; i < SodiumWrap::SIG_LEN; ++i) {
     printf("%02x", (unsigned char)signature[i]);
