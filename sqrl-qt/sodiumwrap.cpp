@@ -63,7 +63,7 @@ QByteArray SodiumWrap::signDetached(QString message,
 
 QByteArray SodiumWrap::generatePrivateKey(QByteArray seed) {
   // Prepare the seed
-  unsigned char actualSeed = getUnsignedCharFromQByteArray(seed);
+  unsigned char* actualSeed = getUnsignedCharFromQByteArray(seed);
 
   // Prepare public and private keys
   unsigned char* privateKey = new unsigned char[SodiumWrap::SK_LEN];
