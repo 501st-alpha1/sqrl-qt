@@ -7,6 +7,13 @@ static QByteArray getQByteArrayFromUnsignedChar(unsigned char* input) {
   return ret;
 }
 
+static unsigned char* getUnsignedCharFromQByteArray(QByteArray input) {
+  unsigned char* out = new unsigned char[input.length()];
+  memcpy(out, input, input.length());
+
+  return out;
+}
+
 static unsigned char* getUnsignedCharFromString(QString str) {
   int len = str.length();
   unsigned char* result = new unsigned char[len];
@@ -23,8 +30,7 @@ unsigned char* SodiumWrap::getKeyFromQString(QString input) {
 QByteArray SodiumWrap::hmacSha256(QByteArray key, QString message) {
   unsigned char* out = new unsigned char[crypto_auth_hmacsha256_BYTES];
   unsigned char* in = getUnsignedCharFromString(message);
-  unsigned char* actualKey = new unsigned char[SodiumWrap::SEED_LEN];
-  memcpy(actualKey, key, SodiumWrap::SEED_LEN);
+  unsigned char* actualKey = getUnsignedCharFromQByteArray(key);
 
   crypto_auth_hmacsha256(out, in, message.length(), actualKey);
 
@@ -41,10 +47,8 @@ QByteArray SodiumWrap::signDetached(QString message,
                                     QByteArray publicKey) {
   unsigned char* actualMessage = getUnsignedCharFromString(message);
   unsigned char* out = new unsigned char[SodiumWrap::SIG_LEN];
-  unsigned char* actualPrivateKey = new unsigned char[SodiumWrap::SK_LEN];
-  memcpy(actualPrivateKey, privateKey, SodiumWrap::SK_LEN);
-  unsigned char* actualPublicKey = new unsigned char[SodiumWrap::PK_LEN];
-  memcpy(actualPublicKey, publicKey, SodiumWrap::PK_LEN);
+  unsigned char* actualPrivateKey = getUnsignedCharFromQByteArray(privateKey);
+  unsigned char* actualPublicKey = getUnsignedCharFromQByteArray(publicKey);
 
   crypto_sign_detached(out, NULL, actualMessage, message.length(), actualPrivateKey);
 
@@ -59,8 +63,7 @@ QByteArray SodiumWrap::signDetached(QString message,
 
 QByteArray SodiumWrap::generatePrivateKey(QByteArray seed) {
   // Prepare the seed
-  unsigned char actualSeed[SodiumWrap::SEED_LEN];
-  memcpy(actualSeed, seed, SodiumWrap::SEED_LEN);
+  unsigned char actualSeed = getUnsignedCharFromQByteArray(seed);
 
   // Prepare public and private keys
   unsigned char* privateKey = new unsigned char[SodiumWrap::SK_LEN];
@@ -74,8 +77,7 @@ QByteArray SodiumWrap::generatePrivateKey(QByteArray seed) {
 
 QByteArray SodiumWrap::ed25519PrivateKeyToPublicKey(QByteArray privateKey) {
   unsigned char* publicKey = new unsigned char[SodiumWrap::PK_LEN];
-  unsigned char* actualPrivateKey = new unsigned char[SodiumWrap::SK_LEN];
-  memcpy(actualPrivateKey, privateKey, SodiumWrap::SK_LEN);
+  unsigned char* actualPrivateKey = getUnsignedCharFromQByteArray(privateKey);
 
   crypto_sign_ed25519_sk_to_pk(publicKey, actualPrivateKey);
 
