@@ -251,8 +251,8 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
   }
 
   qDebug() << "sig:";
+  qDebug() << signature.toHex();
   QString sig(signature);
-  qDebug() << sig;
   sig = this->base64url(sig);
 
   QUrl params;
