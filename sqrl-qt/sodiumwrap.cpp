@@ -9,13 +9,13 @@ static QByteArray getQByteArrayFromUnsignedChar(unsigned char* input, int len) {
     ret.append((char)input[i]);
   }
 
-  printf("unsigned char input: ");
-  for (int i = 0; i < ret.length(); ++i) {
-    printf("%02x", (unsigned char)input[i]);
-  }
-  printf("\n");
-  qDebug() << "QByteArray output:";
-  qDebug() << ret.toHex();
+  // printf("unsigned char input: ");
+  // for (int i = 0; i < ret.length(); ++i) {
+  //   printf("%02x", (unsigned char)input[i]);
+  // }
+  // printf("\n");
+  // qDebug() << "QByteArray output:";
+  // qDebug() << ret.toHex();
   return ret;
 }
 
@@ -23,14 +23,14 @@ static unsigned char* getUnsignedCharFromQByteArray(QByteArray input) {
   unsigned char* out = new unsigned char[input.length()];
   memcpy(out, input, input.length());
 
-  qDebug() << "QByteArray input:";
-  qDebug() << input.toHex();
+  // qDebug() << "QByteArray input:";
+  // qDebug() << input.toHex();
 
-  printf("unsigned char output: ");
-  for (int i = 0; i < input.length(); ++i) {
-    printf("%02x", (unsigned char)out[i]);
-  }
-  printf("\n");
+  // printf("unsigned char output: ");
+  // for (int i = 0; i < input.length(); ++i) {
+  //   printf("%02x", (unsigned char)out[i]);
+  // }
+  // printf("\n");
 
   return out;
 }
