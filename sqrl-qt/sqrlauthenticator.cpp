@@ -243,6 +243,7 @@ bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
   QString server = this->base64url(url.toString());
 
   message = client + server;
+  qDebug() << "message:" << message;
 
   QByteArray signature = ident->signMessage(message, privateKey, publicKey);
   if (signature.isNull()) {
