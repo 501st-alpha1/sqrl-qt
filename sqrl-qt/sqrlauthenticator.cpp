@@ -17,7 +17,10 @@ const int TIF_TRANSIENT_FAILURE = 0x20;
 const int TIF_COMMAND_FAILED = 0x40;
 const int TIF_SQRL_FAILURE = 0x80;
 
-SqrlAuthenticator::SqrlAuthenticator() {
+SqrlIdentity* ident;
+
+SqrlAuthenticator::SqrlAuthenticator(SqrlIdentity* ident) {
+  this->ident = ident;
 }
 
 QMap<QString,QString> SqrlAuthenticator::parseArgs(QString input) {
@@ -200,7 +203,7 @@ QString SqrlAuthenticator::trim(QString input) {
   return out;
 }
 
-bool SqrlAuthenticator::authenticate(QUrl url, SqrlIdentity* ident) {
+bool SqrlAuthenticator::authenticate(QUrl url) {
   if (sodium_init() == -1) {
     qDebug() << "Error: sodium_init failed.";
     return false;

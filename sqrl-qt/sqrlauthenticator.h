@@ -8,8 +8,8 @@ class SqrlAuthenticator : QObject {
   Q_OBJECT
 
  public:
-  SqrlAuthenticator();
-  bool authenticate(QUrl url, SqrlIdentity* ident);
+  SqrlAuthenticator(SqrlIdentity* ident);
+  bool authenticate(QUrl url);
   QString base64url(QString input);
   QString unbase64url(QString input);
   QString trim(QString input);
@@ -18,6 +18,9 @@ class SqrlAuthenticator : QObject {
 
   public slots:
     void replyFinished(QNetworkReply* reply);
+
+ private:
+    SqrlIdentity* ident;
 };
 
 #endif

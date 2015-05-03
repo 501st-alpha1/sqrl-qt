@@ -30,6 +30,6 @@ void MainWindow::on_pushButton_clicked() {
 }
 
 void MainWindow::on_pushButton_2_clicked() {
-  SqrlAuthenticator* auth = new SqrlAuthenticator;
-  auth->authenticate(ui->lineEdit_3->text(),this->ident);
+  SqrlAuthenticator* auth = new SqrlAuthenticator(this->ident);
+  auth->authenticate(ui->lineEdit_3->text());
 }
