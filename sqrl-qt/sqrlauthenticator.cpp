@@ -174,8 +174,16 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
     qDebug() << "All arguments parsed!";
 }
 
+/*
+ * Convert a string into it's Base64URL representation.
+ * This is just like normal Base64, except '+' and '/' must be converted to
+ * '-' and '_' respectively.
+ */
 QString SqrlAuthenticator::base64url(QString input) {
-  return this->trim(input.toAscii().toBase64());
+  QString base64 = input.toAscii().toBase64();
+  base64.replace("+","-");
+  base64.replace("/","_");
+  return this->trim(base64);
 }
 
 QString SqrlAuthenticator::unbase64url(QString input) {
