@@ -18,6 +18,9 @@ const int TIF_COMMAND_FAILED = 0x40;
 const int TIF_SQRL_FAILURE = 0x80;
 
 SqrlIdentity* ident;
+int tif;
+QString qry;
+QString sfn;
 
 SqrlAuthenticator::SqrlAuthenticator(SqrlIdentity* ident) {
   this->ident = ident;
@@ -106,12 +109,11 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
   }
 
   // Parse Transaction Information Flags (TIFs)
-  int tif = 0;
   if (parsedReply.contains("tif")) {
     bool success;
     QString rawTif = parsedReply.take("tif");
     qDebug() << "Raw TIF is" << rawTif;
-    tif = rawTif.toInt(&success,16);
+    this->tif = rawTif.toInt(&success,16);
     qDebug() << "Parsed TIF is" << tif;
   }
   else {
@@ -143,9 +145,8 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
     qDebug() << "Got TIF_TRANSIENT_FAILURE.";
 
   // Parse Server Friendly Name (SFN)
-  QString sfn = "";
   if (parsedReply.contains("sfn")) {
-    sfn = parsedReply.take("sfn");
+    this->sfn = parsedReply.take("sfn");
     qDebug() << "Server is" << sfn;
   }
   else {
@@ -161,9 +162,8 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
     qDebug() << "Error: Nut not found!";
   }
 
-  QString qry = "";
   if (parsedReply.contains("qry")) {
-    qry = parsedReply.take("qry");
+    this->qry = parsedReply.take("qry");
     qDebug() << "Qry is" << qry;
   }
   else {

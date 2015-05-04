@@ -22,6 +22,9 @@ class SqrlAuthenticator : QObject {
 
  private:
     SqrlIdentity* ident;
+    int tif;
+    QString qry;
+    QString sfn;
 };
 
 #endif
