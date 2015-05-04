@@ -203,12 +203,7 @@ QString SqrlAuthenticator::trim(QString input) {
   return out;
 }
 
-bool SqrlAuthenticator::query(QUrl url) {
-  if (sodium_init() == -1) {
-    qDebug() << "Error: sodium_init failed.";
-    return false;
-  }
-
+bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url) {
   QByteArray domainSeed = ident->makeDomainPrivateKey(url.host());
 
   if (domainSeed.isNull()) {
@@ -244,7 +239,7 @@ bool SqrlAuthenticator::query(QUrl url) {
   // Client arg
   QString client = "ver=1" + CRLF
     + "idk=" + idk + CRLF
-    + "cmd=query" + CRLF;
+    + "cmd=" + command + CRLF;
 
   qDebug() << "client string:";
   client = this->base64url(client);
@@ -278,6 +273,17 @@ bool SqrlAuthenticator::query(QUrl url) {
                    SLOT(replyFinished(QNetworkReply*)));
 
   manager->post(request, params.encodedQuery());
+
+  return false;
+}
+
+bool SqrlAuthenticator::query(QUrl url) {
+  if (sodium_init() == -1) {
+    qDebug() << "Error: sodium_init failed.";
+    return false;
+  }
+
+  this->sqrlCommand("query", url);
 
   return false;
 }

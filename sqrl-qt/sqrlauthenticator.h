@@ -9,6 +9,7 @@ class SqrlAuthenticator : QObject {
 
  public:
   SqrlAuthenticator(SqrlIdentity* ident);
+  bool sqrlCommand(QString command, QUrl url);
   bool query(QUrl url);
   QString base64url(QString input);
   QString unbase64url(QString input);
