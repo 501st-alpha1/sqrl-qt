@@ -203,7 +203,7 @@ QString SqrlAuthenticator::trim(QString input) {
   return out;
 }
 
-bool SqrlAuthenticator::authenticate(QUrl url) {
+bool SqrlAuthenticator::query(QUrl url) {
   if (sodium_init() == -1) {
     qDebug() << "Error: sodium_init failed.";
     return false;
