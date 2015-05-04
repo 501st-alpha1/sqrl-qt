@@ -22,8 +22,11 @@ int tif;
 QString qry;
 QString sfn;
 
+bool querySuccess;
+
 SqrlAuthenticator::SqrlAuthenticator(SqrlIdentity* ident) {
   this->ident = ident;
+  this->querySuccess = false;
 }
 
 QMap<QString,QString> SqrlAuthenticator::parseArgs(QString input) {
@@ -175,6 +178,8 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
     qDebug() << "Found some extra arguments:" << parsedReply;
   else
     qDebug() << "All arguments parsed!";
+
+  querySuccess = true;
 }
 
 /*

@@ -4,6 +4,8 @@
 #include <QString>
 #include <QFile>
 #include <QDir>
+#include <QTime>
+#include <QDebug>
 #include "sqrlidentity.h"
 #include "sqrlauthenticator.h"
 
@@ -32,4 +34,15 @@ void MainWindow::on_pushButton_clicked() {
 void MainWindow::on_pushButton_2_clicked() {
   SqrlAuthenticator* auth = new SqrlAuthenticator(this->ident);
   auth->query(ui->lineEdit_3->text());
+
+  // Hax!!
+  QTime dieTime = QTime::currentTime().addSecs(5);
+  while (QTime::currentTime() < dieTime)
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
+  if (!auth->querySuccess) {
+    qDebug() << "The 'query' command was not successful. Either something went"
+             << "wrong, or the request timed out.";
+    return;
+  }
 }

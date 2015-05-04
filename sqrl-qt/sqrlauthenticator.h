@@ -17,6 +17,8 @@ class SqrlAuthenticator : QObject {
   QMap<QString,QString> parseArgs(QString input);
   int intToHex(int input);
 
+  bool querySuccess;
+
   public slots:
     void replyFinished(QNetworkReply* reply);
 
