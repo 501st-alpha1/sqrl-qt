@@ -18,7 +18,7 @@ const int TIF_COMMAND_FAILED = 0x40;
 const int TIF_SQRL_FAILURE = 0x80;
 
 SqrlAuthenticator::SqrlAuthenticator(SqrlIdentity* ident) {
-  this->ident = ident;
+  this->identity = ident;
   this->querySuccess = false;
 }
 
@@ -209,7 +209,7 @@ QString SqrlAuthenticator::trim(QString input) {
 bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url) {
   this->domain = url.host();
 
-  QByteArray domainSeed = ident->makeDomainPrivateKey(this->domain);
+  QByteArray domainSeed = this->identity->makeDomainPrivateKey(this->domain);
 
   if (domainSeed.isNull()) {
     qDebug() << "Error: domain seed generation failed.";
@@ -256,7 +256,7 @@ bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url) {
   message = client + server;
   qDebug() << "message:" << message;
 
-  QByteArray signature = ident->signMessage(message, privateKey, publicKey);
+  QByteArray signature = this->identity->signMessage(message, privateKey, publicKey);
   if (signature.isNull()) {
     qDebug() << "Error: signing failed!";
     return false;

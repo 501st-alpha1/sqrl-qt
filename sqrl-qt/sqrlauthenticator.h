@@ -24,7 +24,7 @@ class SqrlAuthenticator : QObject {
     void replyFinished(QNetworkReply* reply);
 
  private:
-    SqrlIdentity* ident;
+    SqrlIdentity* identity;
     int tif;
     QString qry;
     QString sfn;
