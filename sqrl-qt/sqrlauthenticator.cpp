@@ -177,7 +177,7 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
 
 QString SqrlAuthenticator::getNextSqrlUrl() {
   // TODO: add error checking
-  return this->domain + this->qry;
+  return "sqrl://" + this->domain + this->qry;
 }
 
 /*
