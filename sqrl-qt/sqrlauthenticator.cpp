@@ -206,7 +206,8 @@ QString SqrlAuthenticator::trim(QString input) {
   return out;
 }
 
-bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url) {
+bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url,
+                                    bool createAccount) {
   this->domain = url.host();
 
   QByteArray domainSeed = this->identity->makeDomainPrivateKey(this->domain);
@@ -246,6 +247,14 @@ bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url) {
     + "idk=" + idk + CRLF
     + "cmd=" + command + CRLF;
 
+  if (createAccount) {
+    QString iuk = this->base64url(this->identity->getIdentityUnlockKey());
+    QString ilk = this->base64url(this->identity->getIdentityLockKey());
+    client = client
+      + "suk=" + iuk + CRLF
+      + "vuk=" + ilk + CRLF;
+  }
+
   qDebug() << "client string:";
   client = this->base64url(client);
 
@@ -283,7 +292,7 @@ bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url) {
 }
 
 bool SqrlAuthenticator::ident(QUrl url) {
-  this->sqrlCommand("ident", url);
+  this->sqrlCommand("ident", url, true);
 
   return false;
 }
@@ -294,7 +303,7 @@ bool SqrlAuthenticator::query(QUrl url) {
     return false;
   }
 
-  this->sqrlCommand("query", url);
+  this->sqrlCommand("query", url, false);
 
   return false;
 }
