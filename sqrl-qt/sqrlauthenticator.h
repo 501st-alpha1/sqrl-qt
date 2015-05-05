@@ -11,6 +11,7 @@ class SqrlAuthenticator : QObject {
   SqrlAuthenticator(SqrlIdentity* ident);
   bool sqrlCommand(QString command, QUrl url);
   bool query(QUrl url);
+  QString getNextSqrlUrl();
   QString base64url(QString input);
   QString unbase64url(QString input);
   QString trim(QString input);

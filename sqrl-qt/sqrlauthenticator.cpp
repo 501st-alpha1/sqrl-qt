@@ -175,6 +175,11 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
   querySuccess = true;
 }
 
+QString SqrlAuthenticator::getNextSqrlUrl() {
+  // TODO: add error checking
+  return this->domain + this->qry;
+}
+
 /*
  * Convert a string into it's Base64URL representation.
  * This is just like normal Base64, except '+' and '/' must be converted to
