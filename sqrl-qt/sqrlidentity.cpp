@@ -69,14 +69,19 @@ QByteArray SqrlIdentity::getKey() {
   return this->key;
 }
 
-QByteArray SqrlIdentity::getIdentityLockKey() {
+QByteArray SqrlIdentity::getIdentityUnlockKey() {
   //FIXME
   QByteArray seed = "FEDCBA9876543210FEDCBA9876543210";
   QByteArray privateKey = SodiumWrap::generatePrivateKey(seed);
+
+  return privateKey;
+}
+
+QByteArray SqrlIdentity::getIdentityLockKey() {
+  QByteArray privateKey = this->getIdentityUnlockKey();
   QByteArray publicKey = SodiumWrap::ed25519PrivateKeyToPublicKey(privateKey);
 
   return publicKey;
-  //return this->idk;
 }
 
 QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
