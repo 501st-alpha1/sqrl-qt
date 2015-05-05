@@ -17,13 +17,6 @@ const int TIF_TRANSIENT_FAILURE = 0x20;
 const int TIF_COMMAND_FAILED = 0x40;
 const int TIF_SQRL_FAILURE = 0x80;
 
-SqrlIdentity* ident;
-int tif;
-QString qry;
-QString sfn;
-
-bool querySuccess;
-
 SqrlAuthenticator::SqrlAuthenticator(SqrlIdentity* ident) {
   this->ident = ident;
   this->querySuccess = false;
