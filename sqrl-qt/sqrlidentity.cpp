@@ -69,6 +69,16 @@ QByteArray SqrlIdentity::getKey() {
   return this->key;
 }
 
+QByteArray SqrlIdentity::getIdentityLockKey() {
+  //FIXME
+  QByteArray seed = "FEDCBA9876543210FEDCBA9876543210";
+  QByteArray privateKey = SodiumWrap::generatePrivateKey(seed);
+  QByteArray publicKey = SodiumWrap::ed25519PrivateKeyToPublicKey(privateKey);
+
+  return publicKey;
+  //return this->idk;
+}
+
 QByteArray SqrlIdentity::makeDomainPrivateKey(QString domain) {
   QByteArray out = SodiumWrap::hmacSha256(this->key, domain);
 
