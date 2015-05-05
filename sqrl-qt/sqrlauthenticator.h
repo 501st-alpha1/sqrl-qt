@@ -27,6 +27,7 @@ class SqrlAuthenticator : QObject {
     int tif;
     QString qry;
     QString sfn;
+    QString domain;
 };
 
 #endif

@@ -202,7 +202,9 @@ QString SqrlAuthenticator::trim(QString input) {
 }
 
 bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url) {
-  QByteArray domainSeed = ident->makeDomainPrivateKey(url.host());
+  this->domain = url.host();
+
+  QByteArray domainSeed = ident->makeDomainPrivateKey(this->domain);
 
   if (domainSeed.isNull()) {
     qDebug() << "Error: domain seed generation failed.";
@@ -212,7 +214,7 @@ bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url) {
   QByteArray privateKey = SodiumWrap::generatePrivateKey(domainSeed);
   QByteArray publicKey = SodiumWrap::ed25519PrivateKeyToPublicKey(privateKey);
 
-  QString message = url.host() + url.path() + "?nut="
+  QString message = this->domain + url.path() + "?nut="
     + url.queryItemValue("nut");
   qDebug() << "message:" << message;
 
