@@ -45,4 +45,7 @@ void MainWindow::on_pushButton_2_clicked() {
              << "wrong, or the request timed out.";
     return;
   }
+
+  QUrl identUrl(auth->getNextSqrlUrl());
+  auth->ident(identUrl);
 }

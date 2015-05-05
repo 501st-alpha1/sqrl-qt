@@ -282,6 +282,12 @@ bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url) {
   return false;
 }
 
+bool SqrlAuthenticator::ident(QUrl url) {
+  this->sqrlCommand("ident", url);
+
+  return false;
+}
+
 bool SqrlAuthenticator::query(QUrl url) {
   if (sodium_init() == -1) {
     qDebug() << "Error: sodium_init failed.";
