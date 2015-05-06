@@ -132,6 +132,9 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
 
   if ((tif & TIF_IDK_MATCH) != 0)
     qDebug() << "Got TIF_IDK_MATCH.";
+  else
+    this->createAccount = true;
+
   if ((tif & TIF_PDK_MATCH) != 0)
     qDebug() << "Got TIF_PDK_MATCH.";
   if ((tif & TIF_IP_MATCH) != 0)
@@ -207,8 +210,7 @@ QString SqrlAuthenticator::trim(QString input) {
   return out;
 }
 
-bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url,
-                                    bool createAccount) {
+bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url) {
   this->domain = url.host();
 
   QByteArray domainSeed = this->identity->makeDomainPrivateKey(this->domain);
@@ -248,7 +250,7 @@ bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url,
     + "idk=" + idk + CRLF
     + "cmd=" + command + CRLF;
 
-  if (createAccount) {
+  if (this->createAccount) {
     QString ilk = this->base64url(this->identity->getIdentityLockKey());
     QString suk = ilk;
     suk.replace('A','Z');
@@ -298,7 +300,7 @@ bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url,
 }
 
 bool SqrlAuthenticator::ident(QUrl url) {
-  this->sqrlCommand("ident", url, true);
+  this->sqrlCommand("ident", url);
 
   return false;
 }
@@ -309,7 +311,7 @@ bool SqrlAuthenticator::query(QUrl url) {
     return false;
   }
 
-  this->sqrlCommand("query", url, false);
+  this->sqrlCommand("query", url);
 
   return false;
 }

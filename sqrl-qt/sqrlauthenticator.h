@@ -9,7 +9,7 @@ class SqrlAuthenticator : QObject {
 
  public:
   SqrlAuthenticator(SqrlIdentity* ident);
-  bool sqrlCommand(QString command, QUrl url, bool createAccount);
+  bool sqrlCommand(QString command, QUrl url);
   bool query(QUrl url);
   bool ident(QUrl url);
   QString getNextSqrlUrl();
@@ -21,6 +21,7 @@ class SqrlAuthenticator : QObject {
 
   bool querySuccess;
   QString lastResponse;
+  bool createAccount;
 
   public slots:
     void replyFinished(QNetworkReply* reply);
