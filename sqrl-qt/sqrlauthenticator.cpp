@@ -80,6 +80,7 @@ void SqrlAuthenticator::replyFinished(QNetworkReply* reply) {
 
   QString rawReply = reply->readAll();
   qDebug() << "raw reply:" << rawReply;
+  this->lastResponse = rawReply;
 
   rawReply = this->unbase64url(rawReply);
   qDebug() << "decoded raw reply:" << rawReply;
@@ -260,7 +261,11 @@ bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url,
 
   // Server arg
   qDebug() << "server string: ";
-  QString server = this->base64url(url.toString());
+  QString server;
+  if (this->lastResponse == "")
+    server = this->base64url(url.toString());
+  else
+    server = this->lastResponse;
 
   message = client + server;
   qDebug() << "message:" << message;

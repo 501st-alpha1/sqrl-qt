@@ -20,6 +20,7 @@ class SqrlAuthenticator : QObject {
   int intToHex(int input);
 
   bool querySuccess;
+  QString lastResponse;
 
   public slots:
     void replyFinished(QNetworkReply* reply);
