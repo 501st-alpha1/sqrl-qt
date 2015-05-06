@@ -249,10 +249,11 @@ bool SqrlAuthenticator::sqrlCommand(QString command, QUrl url,
     + "cmd=" + command + CRLF;
 
   if (createAccount) {
-    QString iuk = this->base64url(this->identity->getIdentityUnlockKey());
     QString ilk = this->base64url(this->identity->getIdentityLockKey());
+    QString suk = ilk;
+    suk.replace('A','Z');
     client = client
-      + "suk=" + iuk + CRLF
+      + "suk=" + suk + CRLF
       + "vuk=" + ilk + CRLF;
   }
 
