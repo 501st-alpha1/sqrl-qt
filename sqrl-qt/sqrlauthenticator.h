@@ -22,6 +22,7 @@ class SqrlAuthenticator : QObject {
   bool querySuccess;
   QString lastResponse;
   bool createAccount;
+  QString sfn;
 
   public slots:
     void replyFinished(QNetworkReply* reply);
@@ -30,7 +31,6 @@ class SqrlAuthenticator : QObject {
     SqrlIdentity* identity;
     int tif;
     QString qry;
-    QString sfn;
     QString domain;
 };
 
