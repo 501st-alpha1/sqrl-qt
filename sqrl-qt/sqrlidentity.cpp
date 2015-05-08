@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QByteArray>
 #include <QStringList>
+#include <QTime>
 #include "sodiumwrap.h"
 
 SqrlIdentity::SqrlIdentity() {
@@ -18,8 +19,17 @@ bool SqrlIdentity::createIdentity() {
   qDebug() << "LOTS of entropy goes here";
   qDebug() << "Security warning: don't use this key for anything but testing!";
 
-  qDebug() << "Currently the key is HARD-CODED!! Very bad!!";
-  QByteArray seed = "0123456789ABCDEF0123456789ABCDEF";
+  QTime time = QTime::currentTime();
+  qsrand((uint) time.msec());
+  QByteArray seed;
+
+  for (int i = 0; i < SodiumWrap::SEED_LEN; ++i) {
+    int rand = qrand() % 16;
+    seed.append(QByteArray::number(rand, 16));
+  }
+
+  qDebug() << "The generated seed is:" << seed;
+
   this->key = seed;
 
   QString folderName = QDir::homePath() + "/.sqrl";
