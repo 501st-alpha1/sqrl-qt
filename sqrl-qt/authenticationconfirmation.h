@@ -14,9 +14,11 @@ class AuthenticationConfirmation : public QWidget
  public:
   explicit AuthenticationConfirmation(QWidget *parent = 0);
   ~AuthenticationConfirmation();
+  void setSFN(QString sfn);
 
  private:
   Ui::AuthenticationConfirmation *ui;
+  QString sfn;
 };
 
 #endif // AUTHENTICATIONCONFIRMATION_H

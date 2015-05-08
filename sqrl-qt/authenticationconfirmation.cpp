@@ -7,6 +7,11 @@ AuthenticationConfirmation::AuthenticationConfirmation(QWidget *parent) :
   ui->setupUi(this);
 }
 
+void AuthenticationConfirmation::setSFN(QString sfn) {
+  this->sfn = sfn;
+  ui->label_2->setText(sfn);
+}
+
 AuthenticationConfirmation::~AuthenticationConfirmation() {
   delete ui;
 }
