@@ -15,3 +15,15 @@ void AuthenticationConfirmation::setSFN(QString sfn) {
 AuthenticationConfirmation::~AuthenticationConfirmation() {
   delete ui;
 }
+
+void AuthenticationConfirmation::on_pushButton_clicked() {
+  return;
+}
+
+void AuthenticationConfirmation::on_pushButton_3_clicked() {
+  return;
+}
+
+void AuthenticationConfirmation::on_pushButton_2_clicked() {
+  return;
+}
