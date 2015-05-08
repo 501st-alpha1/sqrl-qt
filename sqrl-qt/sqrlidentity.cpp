@@ -11,6 +11,17 @@
 SqrlIdentity::SqrlIdentity() {
 }
 
+QByteArray SqrlIdentity::getRandomQByteArray() {
+  QByteArray ret;
+
+  for (int i = 0; i < SodiumWrap::SEED_LEN; ++i) {
+    int rand = qrand() % 16;
+    ret.append(QByteArray::number(rand, 16));
+  }
+
+  return ret;
+}
+
 /*
  * Generate a new SQRL identity.
  * Need to add **LOTS** of entropy here.
@@ -21,12 +32,7 @@ bool SqrlIdentity::createIdentity() {
 
   QTime time = QTime::currentTime();
   qsrand((uint) time.msec());
-  QByteArray seed;
-
-  for (int i = 0; i < SodiumWrap::SEED_LEN; ++i) {
-    int rand = qrand() % 16;
-    seed.append(QByteArray::number(rand, 16));
-  }
+  QByteArray seed = this->getRandomQByteArray();
 
   qDebug() << "The generated seed is:" << seed;
 
