@@ -9,14 +9,14 @@ class AuthenticationConfirmation;
 
 class AuthenticationConfirmation : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
-public:
-    explicit AuthenticationConfirmation(QWidget *parent = 0);
-    ~AuthenticationConfirmation();
+ public:
+  explicit AuthenticationConfirmation(QWidget *parent = 0);
+  ~AuthenticationConfirmation();
 
-private:
-    Ui::AuthenticationConfirmation *ui;
+ private:
+  Ui::AuthenticationConfirmation *ui;
 };
 
 #endif // AUTHENTICATIONCONFIRMATION_H
