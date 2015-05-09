@@ -33,5 +33,7 @@ void AuthenticationConfirmation::on_pushButton_2_clicked() {
   QUrl identUrl(auth->getNextSqrlUrl());
   auth->ident(identUrl);
 
+  this->hide();
+
   return;
 }
