@@ -15,9 +15,11 @@ class AuthenticationConfirmation : public QWidget
   explicit AuthenticationConfirmation(QWidget *parent = 0);
   ~AuthenticationConfirmation();
   void setSFN(QString sfn);
-  void on_pushButton_clicked();
-  void on_pushButton_3_clicked();
-  void on_pushButton_2_clicked();
+
+  public slots:
+    void on_pushButton_clicked();
+    void on_pushButton_3_clicked();
+    void on_pushButton_2_clicked();
 
  private:
   Ui::AuthenticationConfirmation *ui;
