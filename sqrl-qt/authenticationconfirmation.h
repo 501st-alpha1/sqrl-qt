@@ -2,6 +2,7 @@
 #define AUTHENTICATIONCONFIRMATION_H
 
 #include <QWidget>
+#include "sqrlauthenticator.h"
 
 namespace Ui {
 class AuthenticationConfirmation;
@@ -14,7 +15,7 @@ class AuthenticationConfirmation : public QWidget
  public:
   explicit AuthenticationConfirmation(QWidget *parent = 0);
   ~AuthenticationConfirmation();
-  void setSFN(QString sfn);
+  void setAuthenticator(SqrlAuthenticator* auth);
 
   public slots:
     void on_pushButton_clicked();
@@ -23,7 +24,7 @@ class AuthenticationConfirmation : public QWidget
 
  private:
   Ui::AuthenticationConfirmation *ui;
-  QString sfn;
+  SqrlAuthenticator* auth;
 };
 
 #endif // AUTHENTICATIONCONFIRMATION_H

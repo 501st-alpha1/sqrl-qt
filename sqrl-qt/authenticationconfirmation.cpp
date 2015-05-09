@@ -8,9 +8,9 @@ AuthenticationConfirmation::AuthenticationConfirmation(QWidget *parent) :
   ui->setupUi(this);
 }
 
-void AuthenticationConfirmation::setSFN(QString sfn) {
-  this->sfn = sfn;
-  ui->label_2->setText(sfn);
+void AuthenticationConfirmation::setAuthenticator(SqrlAuthenticator* auth) {
+  this->auth = auth;
+  ui->label_2->setText(auth->sfn);
 }
 
 AuthenticationConfirmation::~AuthenticationConfirmation() {
