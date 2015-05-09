@@ -19,11 +19,16 @@ AuthenticationConfirmation::~AuthenticationConfirmation() {
 
 void AuthenticationConfirmation::on_pushButton_clicked() {
   qDebug() << "Pressed No";
+
+  this->hide();
+
   return;
 }
 
 void AuthenticationConfirmation::on_pushButton_3_clicked() {
   qDebug() << "Pressed Options";
+  qDebug() << "Not yet implemented!";
+
   return;
 }
 
