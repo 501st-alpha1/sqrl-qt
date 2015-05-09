@@ -29,5 +29,9 @@ void AuthenticationConfirmation::on_pushButton_3_clicked() {
 
 void AuthenticationConfirmation::on_pushButton_2_clicked() {
   qDebug() << "Pressed Yes";
+
+  QUrl identUrl(auth->getNextSqrlUrl());
+  auth->ident(identUrl);
+
   return;
 }

@@ -50,7 +50,4 @@ void MainWindow::on_pushButton_2_clicked() {
   AuthenticationConfirmation* confirm = new AuthenticationConfirmation;
   confirm->setAuthenticator(auth);
   confirm->show();
-
-  QUrl identUrl(auth->getNextSqrlUrl());
-  auth->ident(identUrl);
 }
