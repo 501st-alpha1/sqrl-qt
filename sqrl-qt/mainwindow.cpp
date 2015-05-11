@@ -8,6 +8,7 @@
 #include <QDebug>
 #include "sqrlidentity.h"
 #include "sqrlauthenticator.h"
+#include "authenticationconfirmation.h"
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -46,6 +47,7 @@ void MainWindow::on_pushButton_2_clicked() {
     return;
   }
 
-  QUrl identUrl(auth->getNextSqrlUrl());
-  auth->ident(identUrl);
+  AuthenticationConfirmation* confirm = new AuthenticationConfirmation;
+  confirm->setAuthenticator(auth);
+  confirm->show();
 }

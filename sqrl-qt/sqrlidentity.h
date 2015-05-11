@@ -8,6 +8,7 @@ class SqrlIdentity : QObject {
 
  public:
   SqrlIdentity();
+  QByteArray getRandomQByteArray();
   bool createIdentity();
   bool loadIdentity();
   QByteArray getKey();

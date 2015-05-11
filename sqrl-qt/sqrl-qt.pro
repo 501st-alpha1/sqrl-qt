@@ -19,15 +19,18 @@ SOURCES += main.cpp\
     identitycreationwindowpage2.cpp \
     sodiumwrap.cpp \
     sqrlauthenticator.cpp \
-    sqrlidentity.cpp
+    sqrlidentity.cpp \
+    authenticationconfirmation.cpp
 
 HEADERS  += mainwindow.h \
     identitycreationwindowpage1.h \
     identitycreationwindowpage2.h \
     sodiumwrap.h \
     sqrlauthenticator.h \
-    sqrlidentity.h
+    sqrlidentity.h \
+    authenticationconfirmation.h
 
 FORMS    += mainwindow.ui \
     identitycreationwindowpage1.ui \
-    identitycreationwindowpage2.ui
+    identitycreationwindowpage2.ui \
+    authenticationconfirmation.ui
