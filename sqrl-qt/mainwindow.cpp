@@ -9,6 +9,7 @@
 #include "sqrlidentity.h"
 #include "sqrlauthenticator.h"
 #include "authenticationconfirmation.h"
+#include "sqrlsettings.h"
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent), ui(new Ui::MainWindow) {
