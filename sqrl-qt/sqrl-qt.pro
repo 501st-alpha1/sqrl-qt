@@ -20,6 +20,7 @@ SOURCES += main.cpp\
     sodiumwrap.cpp \
     sqrlauthenticator.cpp \
     sqrlidentity.cpp \
+    sqrlsettings.cpp \
     authenticationconfirmation.cpp
 
 HEADERS  += mainwindow.h \
@@ -28,6 +29,7 @@ HEADERS  += mainwindow.h \
     sodiumwrap.h \
     sqrlauthenticator.h \
     sqrlidentity.h \
+    sqrlsettings.h \
     authenticationconfirmation.h
 
 FORMS    += mainwindow.ui \
