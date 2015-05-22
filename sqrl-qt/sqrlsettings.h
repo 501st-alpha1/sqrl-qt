@@ -8,6 +8,7 @@ class SqrlSettings : QObject {
 
  public:
   SqrlSettings();
+  bool getOption(int optCode);
 
   // Options Flags
   static const int OPT_CHECK_FOR_UPDATES = 0x0001;
@@ -18,6 +19,9 @@ class SqrlSettings : QObject {
   static const int OPT_WIPE_HINT_SUSPEND = 0x0020;
   static const int OPT_WIPE_HINT_USER_CHANGE = 0x0040;
   static const int OPT_WIPE_HINT_IDLE = 0x0080;
+
+ private:
+  int options;
 };
 
 #endif
