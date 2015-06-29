@@ -9,6 +9,7 @@ class SqrlSettings : QObject {
  public:
   SqrlSettings();
   bool getOption(int optCode);
+  QByteArray toQByteArray();
 
   // Options Flags
   static const int OPT_CHECK_FOR_UPDATES = 0x0001;
