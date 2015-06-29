@@ -52,3 +52,8 @@ void MainWindow::on_pushButton_2_clicked() {
   confirm->setAuthenticator(auth);
   confirm->show();
 }
+
+void MainWindow::on_pushButton_3_clicked() {
+  SqrlSettings* settings = new SqrlSettings();
+  settings->toQByteArray();
+}
