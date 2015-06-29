@@ -12,6 +12,7 @@ QByteArray SqrlSettings::toQByteArray() {
   ret.append(157);
 
   qDebug() << ret;
+  qDebug() << ret.size();
 
   return ret;
 }
