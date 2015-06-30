@@ -21,7 +21,7 @@ QByteArray SqrlSettings::toQByteArray() {
   ret.append(this->options);
   ret.append(4); // hint length (1 byte)
   ret.append(3); // pw verify seconds (1 byte)
-  // TODO idle timeout minutes
+  ret.append(10); // idle timeout minutes (2 bytes)
 
   // TODO encrypted identity master key
   // TODO encrypted identity lock key
