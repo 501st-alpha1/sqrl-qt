@@ -23,6 +23,12 @@ QByteArray SqrlSettings::toQByteArray() {
   // TODO pw verify seconds
   // TODO idle timeout minutes
 
+  // TODO encrypted identity master key
+  // TODO encrypted identity lock key
+  // TODO encrypted previous identity master key
+
+  // TODO verification tag
+
   qDebug() << ret;
   qDebug() << ret.size();
 
