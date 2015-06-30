@@ -1,6 +1,7 @@
 #include "sqrlsettings.h"
 
-SqrlSettings::SqrlSettings() {
+SqrlSettings::SqrlSettings(SqrlIdentity* ident) {
+  this->ident = ident;
 }
 
 bool SqrlSettings::getOption(const int optCode) {

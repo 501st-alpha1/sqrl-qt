@@ -2,12 +2,13 @@
 #define SQRLSETTINGS_H
 
 #include <QDebug>
+#include "sqrlidentity.h"
 
 class SqrlSettings : QObject {
   Q_OBJECT
 
  public:
-  SqrlSettings();
+  SqrlSettings(SqrlIdentity* ident);
   bool getOption(int optCode);
   QByteArray toQByteArray();
 
@@ -23,6 +24,7 @@ class SqrlSettings : QObject {
 
  private:
   int options;
+  SqrlIdentity* ident;
 };
 
 #endif
