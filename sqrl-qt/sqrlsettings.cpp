@@ -18,6 +18,10 @@ QByteArray SqrlSettings::toQByteArray() {
   // TODO 16 bytes scrypt random salt
   // TODO 1 byte scrypt log n factor
   // TODO 4 bytes scrypt iteration count
+  ret.append(this->options);
+  // TODO 1 byte hint length
+  // TODO pw verify seconds
+  // TODO idle timeout minutes
 
   qDebug() << ret;
   qDebug() << ret.size();
