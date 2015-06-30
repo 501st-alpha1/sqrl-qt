@@ -14,6 +14,10 @@ QByteArray SqrlSettings::toQByteArray() {
   ret.append(157); // length of block
   ret.append(1); // type of block
   ret.append(45); // length of inner block
+  // TODO 12 bytes aes-gcm iv init vector
+  // TODO 16 bytes scrypt random salt
+  // TODO 1 byte scrypt log n factor
+  // TODO 4 bytes scrypt iteration count
 
   qDebug() << ret;
   qDebug() << ret.size();
