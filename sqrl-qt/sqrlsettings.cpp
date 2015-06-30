@@ -19,7 +19,7 @@ QByteArray SqrlSettings::toQByteArray() {
   // TODO 1 byte scrypt log n factor
   // TODO 4 bytes scrypt iteration count
   ret.append(this->options);
-  // TODO 1 byte hint length
+  ret.append(4); // hint length (1 byte)
   // TODO pw verify seconds
   // TODO idle timeout minutes
 
